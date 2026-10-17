@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://b607lkdu6t4r5"]
 
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
-[ext_resource type="FontFile" uid="uid://brukqa40dcmwh" path="res://Assets/Fonts/Isometra-Regular.ttf" id="2_171y0"]
 [ext_resource type="Texture2D" uid="uid://bllyj1und2ij1" path="res://Assets/UI/menucredit.png" id="3_0fmu8"]
 [ext_resource type="Texture2D" uid="uid://1ehl7qdxtd8d" path="res://Assets/UI/menustart.png" id="3_dskt3"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
@@ -48,13 +47,13 @@ theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816
 theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
 theme_override_constants/line_separation = 0
 theme_override_constants/paragraph_separation = 0
-theme_override_constants/shadow_outline_size = 50
+theme_override_constants/shadow_outline_size = 20
 theme_override_constants/shadow_offset_y = 8
-theme_override_constants/outline_size = 37
+theme_override_constants/outline_size = 20
 theme_override_constants/text_highlight_h_padding = 10
-theme_override_fonts/normal_font = ExtResource("2_171y0")
-theme_override_font_sizes/normal_font_size = 100
-text = "404"
+theme_override_fonts/normal_font = ExtResource("4_qeql0")
+theme_override_font_sizes/normal_font_size = 150
+text = "JOGO"
 horizontal_alignment = 1
 vertical_alignment = 1
 
