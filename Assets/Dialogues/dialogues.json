@@ -70,5 +70,57 @@
   {
 	"id": "LUTO_BOSS_05",
 	"portrait": "res://Assets/Portraits/grief_monster.png"
+  },
+  {
+	"id": "OBJ_ESPELHO_N2_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "OBJ_CAMA_N2_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "OBJ_ESCRIVANINHA_N2_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "OBJ_GUARDAROUPA_N2_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "OBJ_PORTA_N2_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "ANOMALIA_PORTA_ARMARIO_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "ANOMALIA_PEGADAS_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "ANOMALIA_TELA_COMPUTADOR_01",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "LUTO_BOSS2_01",
+	"portrait": "res://Assets/Portraits/grief_monster.png"
+  },
+  {
+	"id": "LUTO_BOSS2_02",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "LUTO_BOSS2_03",
+	"portrait": "res://Assets/Portraits/grief_monster.png"
+  },
+  {
+	"id": "LUTO_BOSS2_04",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
+  },
+  {
+	"id": "LUTO_BOSS2_05",
+	"portrait": "res://Assets/Portraits/grief_monster.png"
   }
 ]
