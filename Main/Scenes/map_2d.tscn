@@ -1,0 +1,97 @@
+[gd_scene format=3 uid="uid://jfuxsjeymo2q"]
+
+[ext_resource type="Script" uid="uid://eqpg6dgd84px" path="res://Main/Scripts/map_2d.gd" id="1_rva2g"]
+[ext_resource type="PackedScene" uid="uid://cfak205ct4xao" path="res://Main/Scenes/player.tscn" id="2_qxpfx"]
+[ext_resource type="Texture2D" uid="uid://v5cu1276vqab" path="res://icon.svg" id="3_placeholder"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_start"]
+size = Vector2(800, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_small"]
+size = Vector2(200, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat_med"]
+size = Vector2(300, 30)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_end"]
+size = Vector2(1000, 60)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_death"]
+size = Vector2(8000, 100)
+
+[node name="Map2D" type="Node2D" unique_id=1339424778]
+script = ExtResource("1_rva2g")
+
+[node name="Platforms" type="Node2D" parent="." unique_id=69478166]
+
+[node name="ChaoInicial" type="StaticBody2D" parent="Platforms" unique_id=447588500]
+position = Vector2(400, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/ChaoInicial"]
+shape = SubResource("RectangleShape2D_ground_start")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/ChaoInicial"]
+scale = Vector2(6.25, 0.46875)
+texture = ExtResource("3_placeholder")
+
+[node name="Plataforma1" type="StaticBody2D" parent="Platforms" unique_id=569815737]
+position = Vector2(950, 420)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Plataforma1"]
+shape = SubResource("RectangleShape2D_plat_small")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/Plataforma1"]
+scale = Vector2(1.5625, 0.234375)
+texture = ExtResource("3_placeholder")
+
+[node name="Plataforma2" type="StaticBody2D" parent="Platforms" unique_id=1696705531]
+position = Vector2(1250, 320)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Plataforma2"]
+shape = SubResource("RectangleShape2D_plat_small")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/Plataforma2"]
+scale = Vector2(1.5625, 0.234375)
+texture = ExtResource("3_placeholder")
+
+[node name="Plataforma3_Sprint" type="StaticBody2D" parent="Platforms"]
+position = Vector2(1650, 240)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Plataforma3_Sprint"]
+shape = SubResource("RectangleShape2D_plat_med")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/Plataforma3_Sprint"]
+scale = Vector2(2.34375, 0.234375)
+texture = ExtResource("3_placeholder")
+
+[node name="Plataforma4_Desceda" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2100, 360)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/Plataforma4_Desceda"]
+shape = SubResource("RectangleShape2D_plat_small")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/Plataforma4_Desceda"]
+scale = Vector2(1.5625, 0.234375)
+texture = ExtResource("3_placeholder")
+
+[node name="ChaoFinal" type="StaticBody2D" parent="Platforms"]
+position = Vector2(2750, 520)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platforms/ChaoFinal"]
+shape = SubResource("RectangleShape2D_ground_end")
+
+[node name="Sprite2D" type="Sprite2D" parent="Platforms/ChaoFinal"]
+scale = Vector2(7.8125, 0.46875)
+texture = ExtResource("3_placeholder")
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=2043153590]
+position = Vector2(100, 420)
+
+[node name="DeathZone" type="Area2D" parent="." unique_id=2083392490]
+position = Vector2(1800, 800)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone" unique_id=906835123]
+shape = SubResource("RectangleShape2D_death")
+
+[node name="Player" parent="." unique_id=1549126381 instance=ExtResource("2_qxpfx")]
+position = Vector2(100, 420)
