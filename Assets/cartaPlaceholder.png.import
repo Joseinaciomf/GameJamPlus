@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dt0jban5jsdnv"
-path="res://.godot/imported/cartaPlaceholder.png-987164d46b98b415602204b991a29450.ctex"
+path="res://.godot/imported/cartaPlaceholder.png-37c62549d2a30d47cfe5cf3df83208bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://cartaPlaceholder.png"
-dest_files=["res://.godot/imported/cartaPlaceholder.png-987164d46b98b415602204b991a29450.ctex"]
+source_file="res://Assets/cartaPlaceholder.png"
+dest_files=["res://.godot/imported/cartaPlaceholder.png-37c62549d2a30d47cfe5cf3df83208bb.ctex"]
 
 [params]
 
