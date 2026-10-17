@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqkgbt1uhyvd5"
-path="res://.godot/imported/Modelo de Carta.png-992f11e57b659cad2f802417c8076dee.ctex"
+uid="uid://e0blro08r03x"
+path="res://.godot/imported/Carta de Ataque.png-91904f25f986ff59caefe6bcaf4bb805.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Environment/Modelo de Carta.png"
-dest_files=["res://.godot/imported/Modelo de Carta.png-992f11e57b659cad2f802417c8076dee.ctex"]
+source_file="res://Assets/Carta de Ataque.png"
+dest_files=["res://.godot/imported/Carta de Ataque.png-91904f25f986ff59caefe6bcaf4bb805.ctex"]
 
 [params]
 

@@ -1,18 +1,25 @@
 [gd_scene format=3 uid="uid://bi756cjwcvo5q"]
 
-[ext_resource type="Texture2D" uid="uid://dt0jban5jsdnv" path="res://Assets/cartaPlaceholder.png" id="1_nrcwn"]
+[ext_resource type="Texture2D" uid="uid://c0bjck2r4vscv" path="res://Assets/Modelo de Carta.png" id="1_nrcwn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rs0my"]
-size = Vector2(191, 308)
+size = Vector2(108, 166)
 
 [node name="Carta" type="Node2D" unique_id=287042538]
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1759671354]
-position = Vector2(203, 188)
+[node name="Panel" type="Panel" parent="." unique_id=454751969]
+offset_left = 2.0
+offset_top = -2.0
+offset_right = 130.0
+offset_bottom = 190.0
+pivot_offset = Vector2(64, 192)
+
+[node name="Sprite2D" type="Sprite2D" parent="Panel" unique_id=1759671354]
+position = Vector2(64, 94)
 texture = ExtResource("1_nrcwn")
 
-[node name="Area2D" type="Area2D" parent="Sprite2D" unique_id=1222302652]
+[node name="Area2D" type="Area2D" parent="Panel/Sprite2D" unique_id=1222302652]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D" unique_id=1487326627]
-position = Vector2(0, -1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/Sprite2D/Area2D" unique_id=1487326627]
+position = Vector2(-1, 0)
 shape = SubResource("RectangleShape2D_rs0my")
