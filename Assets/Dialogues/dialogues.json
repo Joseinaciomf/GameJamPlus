@@ -72,6 +72,18 @@
 	"portrait": "res://Assets/Portraits/grief_monster.png"
   },
   {
+	"id": "TRANS_N2_01",
+	"portrait": ""
+  },
+  {
+	"id": "TRANS_N2_02",
+	"portrait": ""
+  },
+  {
+	"id": "TRANS_N2_03",
+	"portrait": ""
+  },
+  {
 	"id": "OBJ_ESPELHO_N2_01",
 	"portrait": "res://Assets/Portraits/protagonist_scared.png"
   },
