@@ -16,6 +16,7 @@ offset_transform_pivot = Vector2(64, 96)
 script = ExtResource("1_j6biq")
 
 [node name="Carta" type="Sprite2D" parent="." unique_id=1303634671]
+scale = Vector2(1.25, 1.25)
 texture = ExtResource("1_nrcwn")
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

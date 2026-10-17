@@ -5,14 +5,22 @@ signal card_used(card: Control)
 @onready var carta: Sprite2D = $Carta
 
 var is_hovered: bool = false
+var base_card_scale: Vector2 = Vector2(1.25, 1.25)
 var is_used: bool = false
 var _hover_tween: Tween
+
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(128, 192)
 	size = Vector2(128, 192)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	carta.position = size / 2.0
+
+	# Define explicitamente a escala inicial.
+	carta.scale = Vector2(1.25, 1.25)
+	base_card_scale = Vector2(1.25, 1.25)
+
+
 
 func _gui_input(event: InputEvent) -> void:
 	if is_used:
@@ -22,22 +30,37 @@ func _gui_input(event: InputEvent) -> void:
 		accept_event()
 		card_used.emit(self)
 
+
 func _on_mouse_entered() -> void:
 	if is_used:
 		return
+
 	is_hovered = true
 	z_index = 100
-	_animate_hover(Vector2(1.12, 1.12))
+	_animate_hover(base_card_scale * 1.3)
+
 
 func _on_mouse_exited() -> void:
 	is_hovered = false
+
 	if is_used:
 		return
+
 	z_index = 0
-	_animate_hover(Vector2.ONE)
+	_animate_hover(base_card_scale)
+
 
 func _animate_hover(target_scale: Vector2) -> void:
 	if is_instance_valid(_hover_tween) and _hover_tween.is_running():
 		_hover_tween.kill()
+
 	_hover_tween = create_tween()
-	_hover_tween.tween_property(carta, "scale", target_scale, 0.15).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	_hover_tween.set_trans(Tween.TRANS_BACK)
+	_hover_tween.set_ease(Tween.EASE_OUT)
+
+	_hover_tween.tween_property(
+		carta,
+		"scale",
+		target_scale,
+		0.22
+	)
