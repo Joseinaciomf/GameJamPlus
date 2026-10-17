@@ -1,14 +1,14 @@
 [
   {
-    "id": "DIALOGUE_NIGHT1_01",
-    "portrait": "res://Assets/Portraits/protagonist_neutral.png"
+	"id": "DIALOGUE_NIGHT1_01",
+	"portrait": "res://Assets/Portraits/protagonist_neutral.png"
   },
   {
-    "id": "DIALOGUE_NIGHT1_02",
-    "portrait": "res://Assets/Portraits/contract_icon.png"
+	"id": "DIALOGUE_NIGHT1_02",
+	"portrait": "res://Assets/Portraits/contract_icon.png"
   },
   {
-    "id": "DIALOGUE_NIGHT1_03",
-    "portrait": "res://Assets/Portraits/protagonist_scared.png"
+	"id": "DIALOGUE_NIGHT1_03",
+	"portrait": "res://Assets/Portraits/protagonist_scared.png"
   }
 ]

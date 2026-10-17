@@ -1,10 +1,11 @@
 extends CanvasLayer
 
 # --- REFERÊNCIAS DOS NÓS ---
-@onready var name_label: Label = $DialogueControl/NameBox/MarginContainer/NameLabel
+@onready var name_label: RichTextLabel = $DialogueControl/NameBox/MarginContainer/NameLabel
 @onready var text_label: RichTextLabel = $DialogueControl/MainBox/MarginContainer/HBoxContainer/TextLabel
 @onready var portrait: TextureRect = $DialogueControl/MainBox/MarginContainer/HBoxContainer/Portrait
 @onready var dialogue_control: Control = $DialogueControl
+@onready var next_indicator: Label = $DialogueControl/MainBox/NextIndicator
 
 # --- VARIÁVEIS DE CONFIGURAÇÃO ---
 @export var text_speed: float = 0.03 # Velocidade da digitação do texto (em segundos por caractere)
@@ -14,22 +15,31 @@ var text_database: Dictionary = {}
 var current_index: int = 0
 var is_typing: bool = false
 var tween: Tween
+var indicator_tween: Tween
 
 func _ready() -> void:
-	# Oculta a caixa de diálogo por padrão
+	# Oculta a caixa de diálogo e o indicador por padrão
 	dialogue_control.visible = false
+	if next_indicator:
+		next_indicator.visible = false
 
 func _input(event: InputEvent) -> void:
 	if not dialogue_control.visible:
 		return
 
-	# Avança o diálogo com a tecla de confirmação (Ex: Espaço, E, Enter ou Clique do Mouse)
-	if event.is_action_pressed("ui_accept") or event.is_action_pressed("click"):
+	# Verifica se foi um clique do mouse ou a tecla Espaço/ui_accept
+	var is_click: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
+	var is_space: bool = event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_select")
+
+	if is_click or is_space:
+		# Consome o evento para evitar que acione outros botões do fundo no mesmo frame
+		get_viewport().set_input_as_handled()
+		
 		if is_typing:
 			# Se ainda está digitando, completa o texto instantaneamente
 			finish_typing_instantly()
 		else:
-			# Se já terminou de digitar, passa para a próxima fala
+			# Se já terminou de digitar, passa para a próxima fala ou fecha a caixa
 			advance_dialogue()
 
 ## Inicializa um diálogo carregando o CSV e a sequência do JSON
@@ -85,6 +95,8 @@ func load_json_data(file_path: String) -> Array:
 
 ## Exibe a fala atual na tela
 func display_current_line() -> void:
+	stop_indicator_animation()
+
 	var entry = current_sequence[current_index]
 	var id = entry["id"]
 	var portrait_path = entry.get("portrait", "")
@@ -100,12 +112,12 @@ func display_current_line() -> void:
 	# Atualiza o Nome
 	name_label.text = name_text
 	
-	# Atualiza a Foto/Portrait
+	# Atualiza o Portrait
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		portrait.texture = load(portrait_path)
 		portrait.visible = true
 	else:
-		portrait.visible = false # Oculta a caixa da imagem caso não haja portrait para essa fala
+		portrait.visible = false
 
 	# Animação do Texto estilo "Máquina de Escrever"
 	text_label.text = line_text
@@ -118,19 +130,46 @@ func display_current_line() -> void:
 	tween = create_tween()
 	var total_time = line_text.length() * text_speed
 	tween.tween_property(text_label, "visible_characters", line_text.length(), total_time)
-	tween.finished.connect(func(): is_typing = false)
+	tween.finished.connect(_on_typing_finished)
+
+## Chamado quando a animação de digitação termina
+func _on_typing_finished() -> void:
+	is_typing = false
+	start_indicator_animation()
 
 ## Completa a linha atual sem esperar a animação
 func finish_typing_instantly() -> void:
 	if tween:
 		tween.kill()
 	text_label.visible_characters = text_label.text.length()
-	is_typing = false
+	_on_typing_finished()
 
-## Avança para a próxima fala ou fecha a caixa
+## Avança para a próxima fala ou fecha a caixa caso não haja mais diálogos
 func advance_dialogue() -> void:
 	current_index += 1
 	if current_index < current_sequence.size():
 		display_current_line()
 	else:
-		dialogue_control.visible = false # Fim do diálogo
+		stop_indicator_animation()
+		dialogue_control.visible = false # Fim da sequência: fecha a caixa de diálogo
+
+## Inicia a animação de flutuação da setinha no canto inferior direito
+func start_indicator_animation() -> void:
+	if not next_indicator:
+		return
+		
+	next_indicator.visible = true
+	if indicator_tween:
+		indicator_tween.kill()
+
+	indicator_tween = create_tween().set_loops()
+	# Faz a setinha flutuar levemente 5 pixels para baixo e voltar
+	indicator_tween.tween_property(next_indicator, "position:y", 5.0, 0.4).as_relative().set_trans(Tween.TRANS_SINE)
+	indicator_tween.tween_property(next_indicator, "position:y", -5.0, 0.4).as_relative().set_trans(Tween.TRANS_SINE)
+
+## Para e esconde a setinha enquanto o texto está sendo escrito
+func stop_indicator_animation() -> void:
+	if indicator_tween:
+		indicator_tween.kill()
+	if next_indicator:
+		next_indicator.visible = false
