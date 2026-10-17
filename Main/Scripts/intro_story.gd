@@ -6,7 +6,10 @@ extends Control
 
 # --- CONFIGURAÇÕES ---
 @export var text_speed: float = 0.03 # Velocidade da digitação
-@export_file("*.tscn") var room_scene_path: String = "res://Main/Scenes/room.tscn"
+## Prefixo do ID no JSON/CSV que esta cena deve carregar (Ex: "INTRO" ou "TRANS_N2")
+@export var dialogue_prefix: String = "INTRO"
+## Caminho da cena para onde o jogo vai mudar ao terminar
+@export_file("*.tscn") var next_scene_path: String = "res://Main/Scenes/room.tscn"
 
 var intro_sequence: Array = []
 var text_database: Dictionary = {}
@@ -22,7 +25,6 @@ func _ready() -> void:
 		display_current_line()
 
 func _input(event: InputEvent) -> void:
-	# Avança o texto ou pula a animação com Clique ou Espaço
 	var is_click: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	var is_space: bool = event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_select")
 
@@ -30,20 +32,18 @@ func _input(event: InputEvent) -> void:
 		get_viewport().set_input_as_handled()
 		
 		if is_typing:
-			# Completa o texto atual na mesma hora
 			finish_typing_instantly()
 		else:
-			# Passa para o próximo texto da intro ou muda de cena se acabou
 			advance_intro()
 
-## Carrega os dados do CSV e filtra o JSON unificado apenas com o prefixo "INTRO"
+## Carrega os dados do CSV e filtra o JSON unificado pelo prefixo configurado
 func load_intro_data() -> void:
 	text_database = load_csv_data("res://Assets/Dialogues/Dialogues.csv")
 	var full_json = load_json_data("res://Assets/Dialogues/dialogues.json")
 	
 	intro_sequence = []
 	for entry in full_json:
-		if entry["id"].begins_with("INTRO"):
+		if entry["id"].begins_with(dialogue_prefix):
 			intro_sequence.append(entry)
 
 ## Leitor do CSV
@@ -77,7 +77,7 @@ func load_json_data(file_path: String) -> Array:
 		return json.data
 	return []
 
-## Exibe a linha atual da introdução
+## Exibe a linha atual
 func display_current_line() -> void:
 	var entry = intro_sequence[current_index]
 	var id = entry["id"]
@@ -87,7 +87,6 @@ func display_current_line() -> void:
 		return
 
 	var raw_text = text_database[id]["text"]
-	# Centraliza o texto automaticamente via BBCode
 	var line_text = "[center]" + raw_text + "[/center]"
 
 	text_label.text = line_text
@@ -105,7 +104,7 @@ func display_current_line() -> void:
 
 func _on_typing_finished() -> void:
 	is_typing = false
-	skip_label.visible = true # Mostra o aviso para clicar/espaço para o próximo
+	skip_label.visible = true
 
 func finish_typing_instantly() -> void:
 	if tween:
@@ -113,16 +112,16 @@ func finish_typing_instantly() -> void:
 	text_label.visible_characters = text_label.text.length()
 	_on_typing_finished()
 
-## Avança para a próxima frase da intro ou muda para o quarto se acabou
+## Avança ou muda para a próxima cena
 func advance_intro() -> void:
 	current_index += 1
 	if current_index < intro_sequence.size():
 		display_current_line()
 	else:
-		change_to_room()
+		change_scene()
 
-func change_to_room() -> void:
-	if ResourceLoader.exists(room_scene_path):
-		get_tree().change_scene_to_file(room_scene_path)
+func change_scene() -> void:
+	if ResourceLoader.exists(next_scene_path):
+		get_tree().change_scene_to_file(next_scene_path)
 	else:
-		printerr("Cena do quarto não encontrada: ", room_scene_path)
+		printerr("Próxima cena não encontrada: ", next_scene_path)
