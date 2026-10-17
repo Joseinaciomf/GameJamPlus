@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://bhfxa0gj5c26w"]
+
+[ext_resource type="Script" uid="uid://b8wbgtu6aynkw" path="res://Main/Scripts/tips_screen.gd" id="1_wt4ci"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0m0f"]
+bg_color = Color(0.20942885, 0.2094289, 0.20942876, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.6689726, 0.66295284, 0.66754556, 1)
+corner_detail = 16
+
+[node name="TipsScreen" type="Control" unique_id=1345991283]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wt4ci")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=101010101]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=202020202]
+custom_minimum_size = Vector2(600, 350)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_y0m0f")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=303030303]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=404040404]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "[ DICAS DA INVESTIGAÇÃO ]"
+horizontal_alignment = 1
+
+[node name="TextLabel" type="RichTextLabel" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=505050505]
+custom_minimum_size = Vector2(550, 180)
+layout_mode = 2
+bbcode_enabled = true
+text = "  Explore o quarto clicando nos objetos ao redor. 
+
+  • Alguns itens revelam memórias e reflexões da protagonista.
+  • Outros escondem [color=yellow]anomalias sutis e perturbadoras[/color].
+  • Encontre todas as anomalias para desvendar o mistério e avançar."
+fit_content = true
+
+[node name="BtnEntendi" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=606060606]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "Entendi / Fechar"
+
+[node name="BtnAbrirDicas" type="Button" parent="." unique_id=707070707]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -70.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 70.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 22
+text = "?"

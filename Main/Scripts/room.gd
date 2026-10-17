@@ -6,8 +6,9 @@ extends Control
 # Referência do contêiner de botões
 @onready var hotspots_container = $HotSpots
 
-# Caminho da cena da Batalha de Cartas
+# Caminho da cena da Batalha de Cartas e da Tela de Dicas
 @export_file("*.tscn") var card_battle_scene_path: String = "res://Main/Scenes/card_game.tscn"
+@export_file("*.tscn") var tips_scene_path: String = "res://Main/Scenes/tips_screen.tscn"
 
 # Controle das anomalias encontradas
 var anomalies_found: Dictionary = {
@@ -22,11 +23,17 @@ var pending_boss_trigger: bool = false
 var waiting_for_boss_dialogue: bool = false
 var was_dialogue_active: bool = false
 
+# Trava de segurança para impedir cliques nos hotspots enquanto as dicas estão abertas
+var is_tips_active: bool = true
+
 func _ready() -> void:
 	# Conecta dinamicamente todos os botões existentes em HotSpots
 	for child in hotspots_container.get_children():
 		if child is Button:
 			child.pressed.connect(_on_hotspot_pressed.bind(child.name))
+
+	# Instancia a tela de dicas automaticamente no início da cena do quarto
+	spawn_tips_screen()
 
 func _process(_delta: float) -> void:
 	if not dialogue_box:
@@ -34,7 +41,7 @@ func _process(_delta: float) -> void:
 		
 	var is_dialogue_visible = dialogue_box.get_node("DialogueControl").visible
 	
-	# Detecta o momento exato em que a caixa de diálogo fecha (passa de visível para invisível)
+	# Detecta o momento exato em que a caixa de diálogo fecha
 	if is_dialogue_visible:
 		was_dialogue_active = true
 	elif was_dialogue_active and not is_dialogue_visible:
@@ -49,9 +56,24 @@ func _process(_delta: float) -> void:
 			waiting_for_boss_dialogue = false
 			start_card_battle()
 
+func spawn_tips_screen() -> void:
+	if ResourceLoader.exists(tips_scene_path):
+		var tips_instance = load(tips_scene_path).instantiate()
+		# Conecta o sinal para saber quando o jogador abriu ou fechou o painel de dicas
+		if tips_instance.has_signal("tips_toggled"):
+			tips_instance.tips_toggled.connect(_on_tips_toggled)
+		add_child(tips_instance)
+	else:
+		printerr("Cena de dicas não encontrada em: ", tips_scene_path)
+
+func _on_tips_toggled(is_open: bool) -> void:
+	is_tips_active = is_open
+
 ## Manipulador central de cliques dos hotspots
 func _on_hotspot_pressed(button_name: String) -> void:
-	# Bloqueia cliques se já houver diálogo aberto
+	# Bloqueia cliques se as dicas estiverem abertas ou se já houver diálogo aberto
+	if is_tips_active:
+		return
 	if dialogue_box and dialogue_box.get_node("DialogueControl").visible:
 		return
 
@@ -91,13 +113,13 @@ func check_all_anomalies_found() -> void:
 
 	if count >= total_anomalies_needed and not is_boss_triggered:
 		is_boss_triggered = true
-		pending_boss_trigger = true # Agenda o chefe para quando o diálogo atual fechar
+		pending_boss_trigger = true
 
 ## Dispara o diálogo de confronto com o Luto
 func trigger_boss_encounter() -> void:
 	print("Iniciando confronto com o Luto...")
 	if dialogue_box:
-		dialogue_box.start_dialogue_filtered("LUTO_BOSS", "res://Assets/Dialogues/dialogues.json")
+		dialogue_box.start_dialogue_filtered("LUTO_BOSS", "res://Assets/Dialogues/Dialogues.csv")
 		waiting_for_boss_dialogue = true
 
 ## Executa o diálogo filtrado baseado no prefixo do ID
