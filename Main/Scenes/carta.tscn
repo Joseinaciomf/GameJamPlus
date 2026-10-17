@@ -4,20 +4,44 @@
 [ext_resource type="Texture2D" uid="uid://c0bjck2r4vscv" path="res://Assets/Modelo de Carta.png" id="1_nrcwn"]
 
 [node name="Control" type="Control" unique_id=63590053]
+custom_minimum_size = Vector2(160, 240)
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-offset_transform_pivot = Vector2(64, 96)
+anchors_preset = 0
+offset_right = 160.0
+offset_bottom = 240.0
 script = ExtResource("1_j6biq")
 
 [node name="Carta" type="Sprite2D" parent="." unique_id=1303634671]
+position = Vector2(80, 120)
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("1_nrcwn")
+
+[node name="Nome" type="RichTextLabel" parent="." unique_id=322743754]
+layout_mode = 0
+offset_left = -15.0
+offset_top = 135.0
+offset_right = 125.0
+offset_bottom = 157.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 10
+text = "Nome"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Descrição" type="RichTextLabel" parent="." unique_id=672660139]
+layout_mode = 0
+offset_left = -13.0
+offset_top = 160.0
+offset_right = 123.0
+offset_bottom = 204.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 8
+text = "descrição"
+scroll_active = false
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
