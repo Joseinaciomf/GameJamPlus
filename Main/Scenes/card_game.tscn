@@ -1,9 +1,14 @@
 [gd_scene format=3 uid="uid://ba7pdq45pk2rt"]
 
 [ext_resource type="Script" uid="uid://ctfvgxg7i2rpw" path="res://Main/Scripts/card_game.gd" id="1_ag1rv"]
+[ext_resource type="Texture2D" uid="uid://bab24nheo3cbn" path="res://Assets/Modelo de Costas-Carta.png" id="2_pw6p3"]
 
 [node name="CardGame" type="Node2D" unique_id=239556577]
 script = ExtResource("1_ag1rv")
+enemy_back_texture = ExtResource("2_pw6p3")
 
 [node name="Mao" type="Node2D" parent="." unique_id=1743350984]
 position = Vector2(376, 484)
+
+[node name="MaoInimigo" type="Node2D" parent="." unique_id=87576178]
+position = Vector2(376, -16)
