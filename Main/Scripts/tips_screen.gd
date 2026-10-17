@@ -4,8 +4,8 @@ extends Control
 signal tips_toggled(is_open: bool)
 
 @onready var center_container: CenterContainer = $CenterContainer
-@onready var btn_entendi: Button = $CenterContainer/PanelContainer/VBoxContainer/BtnEntendi
-@onready var btn_abrir_dicas: Button = $BtnAbrirDicas
+@onready var btn_entendi: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnEntendi
+@onready var btn_abrir_dicas: TextureButton = $BtnAbrirDicas
 
 var is_panel_open: bool = true
 

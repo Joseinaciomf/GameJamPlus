@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dbwobqm2xbn4w" path="res://Main/Scripts/credits.gd" id="1_rybmy"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="2_kp4k1"]
 [ext_resource type="Texture2D" uid="uid://b2dfmasxwm1hn" path="res://Assets/UI/menuexit.png" id="3_kp4k1"]
+[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="4_he5oc"]
 [ext_resource type="Script" uid="uid://yc4q0oc7aj5g" path="res://Main/Scripts/effectbutton.gd" id="5_3nmvl"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kp4k1"]
@@ -63,7 +64,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=326386857]
-custom_minimum_size = Vector2(500, 14.395)
+custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
 alignment = 1
 
@@ -81,8 +82,8 @@ theme_override_constants/shadow_outline_size = 5
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/outline_size = 5
 theme_override_constants/text_highlight_h_padding = 10
-theme_override_fonts/normal_font = ExtResource("2_kp4k1")
-theme_override_font_sizes/normal_font_size = 30
+theme_override_fonts/normal_font = ExtResource("4_he5oc")
+theme_override_font_sizes/normal_font_size = 35
 text = "BRUNO EDUARDO: 
 MENI RAMOS: 
 FERNANDO MACEDO: 
@@ -104,11 +105,11 @@ theme_override_constants/shadow_outline_size = 5
 theme_override_constants/shadow_offset_y = 3
 theme_override_constants/outline_size = 5
 theme_override_constants/text_highlight_h_padding = 10
-theme_override_fonts/normal_font = ExtResource("2_kp4k1")
-theme_override_font_sizes/normal_font_size = 30
+theme_override_fonts/normal_font = ExtResource("4_he5oc")
+theme_override_font_sizes/normal_font_size = 35
 text = "UI/UX DESIGNER E PROGRAMADOR
 ARTISTA E ILUSTRADORA
-VAGABUNDO
+PROGRAMADOR E GAME DESIGNER
 PROGRAMADOR E GAME DESIGNER
 ILUSTRADOR E SFX DESIGNER"
 

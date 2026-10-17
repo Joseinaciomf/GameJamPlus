@@ -1,15 +1,11 @@
 [gd_scene format=3 uid="uid://bhfxa0gj5c26w"]
 
 [ext_resource type="Script" uid="uid://b8wbgtu6aynkw" path="res://Main/Scripts/tips_screen.gd" id="1_wt4ci"]
+[ext_resource type="Texture2D" uid="uid://d0ei4kgpsuvjy" path="res://Assets/UI/botaodica.png" id="2_4acn1"]
+[ext_resource type="Texture2D" uid="uid://4b5st15y0c17" path="res://Assets/UI/backgroundcreditos.png" id="2_m1cgp"]
+[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="3_fulod"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_y0m0f"]
-bg_color = Color(0.20942885, 0.2094289, 0.20942876, 1)
-border_width_left = 4
-border_width_top = 4
-border_width_right = 4
-border_width_bottom = 4
-border_color = Color(0.6689726, 0.66295284, 0.66754556, 1)
-corner_detail = 16
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bhunq"]
 
 [node name="TipsScreen" type="Control" unique_id=1345991283]
 layout_mode = 3
@@ -32,21 +28,49 @@ grow_vertical = 2
 [node name="PanelContainer" type="PanelContainer" parent="CenterContainer" unique_id=202020202]
 custom_minimum_size = Vector2(600, 350)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_y0m0f")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_bhunq")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer" unique_id=303030303]
+[node name="TextureRect" type="TextureRect" parent="CenterContainer/PanelContainer" unique_id=349534645]
 layout_mode = 2
-theme_override_constants/separation = 15
+texture = ExtResource("2_m1cgp")
 
-[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=404040404]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/PanelContainer" unique_id=1599064839]
 layout_mode = 2
-theme_override_font_sizes/font_size = 20
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/PanelContainer/MarginContainer" unique_id=303030303]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="TitleLabel" type="Label" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=404040404]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 8
+theme_override_constants/shadow_outline_size = 5
+theme_override_fonts/font = ExtResource("3_fulod")
+theme_override_font_sizes/font_size = 35
 text = "[ DICAS DA INVESTIGAÇÃO ]"
 horizontal_alignment = 1
 
-[node name="TextLabel" type="RichTextLabel" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=505050505]
+[node name="TextLabel" type="RichTextLabel" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=505050505]
 custom_minimum_size = Vector2(550, 180)
 layout_mode = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 10
+theme_override_fonts/normal_font = ExtResource("3_fulod")
+theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
 text = "  Explore o quarto clicando nos objetos ao redor. 
 
@@ -55,12 +79,16 @@ text = "  Explore o quarto clicando nos objetos ao redor.
   • Encontre todas as anomalias para desvendar o mistério e avançar."
 fit_content = true
 
-[node name="BtnEntendi" type="Button" parent="CenterContainer/PanelContainer/VBoxContainer" unique_id=606060606]
+[node name="BtnEntendi" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=606060606]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("3_fulod")
+theme_override_font_sizes/font_size = 25
 text = "Entendi / Fechar"
 
-[node name="BtnAbrirDicas" type="Button" parent="." unique_id=707070707]
+[node name="BtnAbrirDicas" type="TextureButton" parent="." unique_id=1224331474]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -70,5 +98,5 @@ offset_top = 20.0
 offset_right = -20.0
 offset_bottom = 70.0
 grow_horizontal = 0
-theme_override_font_sizes/font_size = 22
-text = "?"
+texture_normal = ExtResource("2_4acn1")
+stretch_mode = 0
