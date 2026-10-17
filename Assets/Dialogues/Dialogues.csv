@@ -1,4 +1,5 @@
 id,character_name,text
-DIALOGUE_NIGHT1_01,Protagonista,"Esta casa parece silenciosa demais..."
-DIALOGUE_NIGHT1_02,Contrato,"Se perceber alguma alteração, não entre em pânico."
-DIALOGUE_NIGHT1_03,Protagonista,"Acho que vi algo se movendo na janela."
+DIALOGUE_NIGHT1_01,Protagonista,"Esta casa custou muito pouco... Tem que ter alguma pegadinha."
+DIALOGUE_NIGHT1_02,Contrato,"Cláusula 4: Caso perceba alguma alteração no apartamento, não entre em pânico."
+DIALOGUE_NIGHT1_03,Protagonista,"Fácil falar para não entrar em pânico com aquele monstro na janela!"
+DIALOGUE_NIGHT2_01,Protagonista,"Segunda noite. De acordo com as regras, preciso verificar a pia da cozinha."
