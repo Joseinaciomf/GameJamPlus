@@ -1,0 +1,170 @@
+[gd_scene format=3 uid="uid://b607lkdu6t4r5"]
+
+[ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
+[ext_resource type="FontFile" uid="uid://brukqa40dcmwh" path="res://Assets/Fonts/Isometra-Regular.ttf" id="2_171y0"]
+[ext_resource type="Texture2D" uid="uid://bllyj1und2ij1" path="res://Assets/UI/menucredit.png" id="3_0fmu8"]
+[ext_resource type="Texture2D" uid="uid://1ehl7qdxtd8d" path="res://Assets/UI/menustart.png" id="3_dskt3"]
+[ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
+[ext_resource type="Texture2D" uid="uid://b2dfmasxwm1hn" path="res://Assets/UI/menuexit.png" id="6_uujw2"]
+
+[node name="MainMenu" type="Node2D" unique_id=1428131579]
+
+[node name="Control" type="Control" parent="." unique_id=1163922146]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_right = 1154.0
+offset_bottom = 650.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="Control" unique_id=939534602]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15127608, 0.15127608, 0.15127608, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1800417167]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 90
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/VBoxContainer" unique_id=843378238]
+custom_minimum_size = Vector2(0, 200)
+clip_contents = false
+layout_mode = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 50
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 37
+theme_override_constants/text_highlight_h_padding = 10
+theme_override_fonts/normal_font = ExtResource("2_171y0")
+theme_override_font_sizes/normal_font_size = 100
+text = "404"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBox" type="HBoxContainer" parent="Control/VBoxContainer" unique_id=180102247]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+alignment = 1
+script = ExtResource("1_mchxw")
+
+[node name="Credits" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=222310334]
+custom_minimum_size = Vector2(178, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_0fmu8")
+stretch_mode = 4
+
+[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Credits" unique_id=1309344023]
+custom_minimum_size = Vector2(0, 200)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 50.0
+offset_right = 3.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 5
+theme_override_fonts/normal_font = ExtResource("4_qeql0")
+theme_override_font_sizes/normal_font_size = 38
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=30622807]
+custom_minimum_size = Vector2(178, 0)
+layout_mode = 2
+texture_normal = ExtResource("3_dskt3")
+stretch_mode = 4
+
+[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Start" unique_id=1303022063]
+custom_minimum_size = Vector2(0, 200)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_top = 50.0
+offset_right = 4.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 5
+theme_override_fonts/normal_font = ExtResource("4_qeql0")
+theme_override_font_sizes/normal_font_size = 50
+text = "START"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Exit" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=837269671]
+custom_minimum_size = Vector2(178, 0)
+layout_mode = 2
+texture_normal = ExtResource("6_uujw2")
+stretch_mode = 4
+
+[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Exit" unique_id=210824881]
+custom_minimum_size = Vector2(0, 200)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 50.0
+offset_right = 5.0
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 5
+theme_override_fonts/normal_font = ExtResource("4_qeql0")
+theme_override_font_sizes/normal_font_size = 50
+text = "EXIT"
+horizontal_alignment = 1
+vertical_alignment = 1
