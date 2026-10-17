@@ -42,15 +42,23 @@ func _input(event: InputEvent) -> void:
 			# Se já terminou de digitar, passa para a próxima fala ou fecha a caixa
 			advance_dialogue()
 
-## Inicializa um diálogo carregando o CSV e a sequência do JSON
-func start_dialogue(json_path: String, csv_path: String) -> void:
+## Inicializa um diálogo filtrando os IDs do JSON pelo prefixo informado
+func start_dialogue_filtered(prefix: String, csv_path: String) -> void:
 	text_database = load_csv_data(csv_path)
-	current_sequence = load_json_data(json_path)
+	var full_sequence = load_json_data("res://Assets/Dialogues/dialogues.json")
+	
+	current_sequence = []
+	for entry in full_sequence:
+		if entry["id"].begins_with(prefix):
+			current_sequence.append(entry)
+			
 	current_index = 0
 	
 	if current_sequence.size() > 0:
 		dialogue_control.visible = true
 		display_current_line()
+	else:
+		printerr("Nenhum diálogo encontrado com o prefixo: ", prefix)
 
 ## Leitor nativo do arquivo CSV
 func load_csv_data(file_path: String) -> Dictionary:

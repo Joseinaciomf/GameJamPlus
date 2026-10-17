@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://ca2nmu0dbgq57"]
+
+[ext_resource type="Script" uid="uid://c8vnhdp5s78ef" path="res://Main/Scripts/intro_story.gd" id="1_iihmx"]
+
+[node name="IntroStory" type="Control" unique_id=1895352565]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iihmx")
+text_speed = 0.07
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2122921489]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1926766572]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_top = 80
+theme_override_constants/margin_right = 100
+theme_override_constants/margin_bottom = 80
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer" unique_id=287766878]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextLabel" type="RichTextLabel" parent="MarginContainer/CenterContainer" unique_id=68698942]
+custom_minimum_size = Vector2(800, 200)
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]Carregando...[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="SkipLabel" type="Label" parent="." unique_id=175456381]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -50.0
+offset_right = -40.0
+offset_bottom = -20.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
+text = "Pressione ESPAÇO ou CLIQUE para continuar"
+horizontal_alignment = 2
