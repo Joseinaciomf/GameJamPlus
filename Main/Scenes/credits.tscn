@@ -1,0 +1,155 @@
+[gd_scene format=3 uid="uid://cj8v15045prkm"]
+
+[ext_resource type="Texture2D" uid="uid://4b5st15y0c17" path="res://Assets/UI/backgroundcreditos.png" id="1_hfqps"]
+[ext_resource type="Script" uid="uid://dbwobqm2xbn4w" path="res://Main/Scripts/credits.gd" id="1_rybmy"]
+[ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="2_kp4k1"]
+[ext_resource type="Texture2D" uid="uid://b2dfmasxwm1hn" path="res://Assets/UI/menuexit.png" id="3_kp4k1"]
+[ext_resource type="Script" uid="uid://yc4q0oc7aj5g" path="res://Main/Scripts/effectbutton.gd" id="5_3nmvl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kp4k1"]
+
+[node name="Credits" type="Control" unique_id=616585670]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rybmy")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=877341811]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15127608, 0.15127608, 0.15127608, 1)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=2095001172]
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_kp4k1")
+
+[node name="TextureRect" type="TextureRect" parent="PanelContainer" unique_id=810829798]
+layout_mode = 2
+texture = ExtResource("1_hfqps")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=1689087565]
+layout_mode = 2
+theme_override_constants/separation = 30
+
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer" unique_id=602957435]
+custom_minimum_size = Vector2(0, 120)
+clip_contents = false
+layout_mode = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 20
+theme_override_constants/shadow_offset_y = 8
+theme_override_constants/outline_size = 20
+theme_override_constants/text_highlight_h_padding = 10
+theme_override_fonts/normal_font = ExtResource("2_kp4k1")
+theme_override_font_sizes/normal_font_size = 100
+text = "CREDITS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer" unique_id=326386857]
+custom_minimum_size = Vector2(500, 14.395)
+layout_mode = 2
+alignment = 1
+
+[node name="AUTOR" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1484687265]
+custom_minimum_size = Vector2(300, 260)
+clip_contents = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 10
+theme_override_fonts/normal_font = ExtResource("2_kp4k1")
+theme_override_font_sizes/normal_font_size = 30
+text = "BRUNO EDUARDO: 
+MENI RAMOS: 
+FERNANDO MACEDO: 
+JOSE INACIO: 
+ALAN SANTANA: "
+horizontal_alignment = 2
+
+[node name="FUNCAO" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HBoxContainer" unique_id=1688598713]
+custom_minimum_size = Vector2(500, 260)
+clip_contents = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 10
+theme_override_fonts/normal_font = ExtResource("2_kp4k1")
+theme_override_font_sizes/normal_font_size = 30
+text = "UI/UX DESIGNER E PROGRAMADOR
+ARTISTA E ILUSTRADORA
+VAGABUNDO
+PROGRAMADOR E GAME DESIGNER
+ILUSTRADOR E SFX DESIGNER"
+
+[node name="Exit" type="TextureButton" parent="." unique_id=22145359]
+layout_mode = 0
+offset_left = 445.0
+offset_top = 370.0
+offset_right = 695.00073
+offset_bottom = 619.99994
+pivot_offset = Vector2(125, 125)
+texture_normal = ExtResource("3_kp4k1")
+stretch_mode = 5
+script = ExtResource("5_3nmvl")
+
+[node name="StartText" type="RichTextLabel" parent="Exit" unique_id=1351335291]
+custom_minimum_size = Vector2(0, 200)
+clip_contents = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 36.33
+offset_right = 5.0
+offset_bottom = 36.33
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_constants/paragraph_separation = 0
+theme_override_constants/shadow_outline_size = 5
+theme_override_constants/shadow_offset_y = 2
+theme_override_constants/outline_size = 5
+theme_override_constants/text_highlight_h_padding = 5
+theme_override_fonts/normal_font = ExtResource("2_kp4k1")
+theme_override_font_sizes/normal_font_size = 35
+text = "MENU"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="Exit" to="." method="_on_exit_pressed"]

@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b607lkdu6t4r5"]
 
+[ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
 [ext_resource type="Texture2D" uid="uid://bllyj1und2ij1" path="res://Assets/UI/menucredit.png" id="3_0fmu8"]
 [ext_resource type="Texture2D" uid="uid://1ehl7qdxtd8d" path="res://Assets/UI/menustart.png" id="3_dskt3"]
@@ -7,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b2dfmasxwm1hn" path="res://Assets/UI/menuexit.png" id="6_uujw2"]
 
 [node name="MainMenu" type="Node2D" unique_id=1428131579]
+script = ExtResource("1_0fmu8")
 
 [node name="Control" type="Control" parent="." unique_id=1163922146]
 layout_mode = 3
@@ -167,3 +169,7 @@ theme_override_font_sizes/normal_font_size = 50
 text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[connection signal="pressed" from="Control/VBoxContainer/HBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/HBox/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/HBox/Exit" to="." method="_on_exit_pressed"]
