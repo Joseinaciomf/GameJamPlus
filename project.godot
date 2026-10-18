@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GameJamPlus"
-run/main_scene="uid://ca2xv21upn6vp"
+run/main_scene="uid://ba7pdq45pk2rt"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
