@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dninsfv5boedt"]
+[gd_scene format=3 uid="uid://dptdrjjyr4rkf"]
 
 [ext_resource type="Script" uid="uid://cshimpr2mtjfa" path="res://Main/Scripts/dialogue_box.gd" id="1_lihx8"]
 [ext_resource type="Texture2D" uid="uid://cjxr2af0saq85" path="res://Assets/UI/backgrounddialogue.png" id="2_alol7"]

@@ -29,7 +29,8 @@ func tocar_som_carta(tipo: String) -> void:
 			card_sfx.stream = SOM_COUNTER
 		_:
 			return
-	card_sfx.play()
+	#som estouradasso
+	#card_sfx.play()
 
 
 # Arraste a imagem do "modelo de costas" aqui, no Inspector do nó CardGame.

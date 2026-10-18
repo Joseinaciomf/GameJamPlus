@@ -40,99 +40,31 @@
 	"portrait": ""
   },
   {
-	"id": "ANOMALIA_JANELA_01",
+	"id": "OBJ_JANELA_01",
 	"portrait": ""
   },
   {
-	"id": "ANOMALIA_RELOGIO_01",
+	"id": "OBJ_QUADRO_01",
 	"portrait": ""
   },
   {
-	"id": "ANOMALIA_QUADRO_01",
-	"portrait": ""
-  },
-  {
-	"id": "LUTO_BOSS_01",
+	"id": "Sombra_01",
 	"portrait": "res://Assets/Portraits/Sombra.png"
   },
   {
-	"id": "LUTO_BOSS_02",
+	"id": "Sombra_02",
 	"portrait": "res://Assets/Portraits/Sombra.png"
   },
   {
-	"id": "LUTO_BOSS_03",
+	"id": "Sombra_03",
 	"portrait": "res://Assets/Portraits/Sombra.png"
   },
   {
-	"id": "LUTO_BOSS_04",
+	"id": "Sombra_04",
 	"portrait": "res://Assets/Portraits/Sombra.png"
   },
   {
-	"id": "LUTO_BOSS_05",
+	"id": "Sombra_05",
 	"portrait": "res://Assets/Portraits/Sombra.png"
-  },
-  {
-	"id": "TRANS_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "TRANS_N2_02",
-	"portrait": ""
-  },
-  {
-	"id": "TRANS_N2_03",
-	"portrait": ""
-  },
-  {
-	"id": "OBJ_ESPELHO_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "OBJ_CAMA_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "OBJ_ESCRIVANINHA_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "OBJ_GUARDAROUPA_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "OBJ_PORTA_N2_01",
-	"portrait": ""
-  },
-  {
-	"id": "ANOMALIA_PORTA_ARMARIO_01",
-	"portrait": ""
-  },
-  {
-	"id": "ANOMALIA_PEGADAS_01",
-	"portrait": ""
-  },
-  {
-	"id": "ANOMALIA_TELA_COMPUTADOR_01",
-	"portrait": ""
-  },
-  {
-	"id": "LUTO_BOSS2_01",
-	"portrait": "res://Assets/Portraits/grief_monster.png"
-  },
-  {
-	"id": "LUTO_BOSS2_02",
-	"portrait": "res://Assets/Portraits/grief_monster.png"
-  },
-  {
-	"id": "LUTO_BOSS2_03",
-	"portrait": "res://Assets/Portraits/grief_monster.png"
-  },
-  {
-	"id": "LUTO_BOSS2_04",
-	"portrait": "res://Assets/Portraits/grief_monster.png"
-  },
-  {
-	"id": "LUTO_BOSS2_05",
-	"portrait": "res://Assets/Portraits/grief_monster.png"
   }
 ]
