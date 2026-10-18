@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dninsfv5boedt" path="res://Assets/Dialogues/dialogue_box.tscn" id="1_xjo8h"]
 [ext_resource type="Script" uid="uid://dec3y1mu5wv87" path="res://Main/Scripts/room.gd" id="1_yag01"]
 [ext_resource type="Texture2D" uid="uid://dmflc111pai51" path="res://Assets/Environment/Quarto_template.png" id="2_k3ujw"]
+[ext_resource type="AudioStream" uid="uid://cwo504lxf1gmj" path="res://Sons/GamePlayQ.wav" id="4_3h0yj"]
 
 [node name="Room" type="Control" unique_id=435209280]
 layout_mode = 3
@@ -96,3 +97,7 @@ offset_bottom = 160.0
 flat = true
 
 [node name="DialogueBox" parent="." unique_id=505788276 instance=ExtResource("1_xjo8h")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1308878075]
+stream = ExtResource("4_3h0yj")
+autoplay = true

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8vnhdp5s78ef" path="res://Main/Scripts/intro_story.gd" id="1_iihmx"]
 [ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="2_2pmwq"]
+[ext_resource type="AudioStream" uid="uid://btdlrrtylc1g5" path="res://Sons/Cutcene.wav" id="3_yytb6"]
 
 [node name="IntroStory" type="Control" unique_id=1895352565]
 layout_mode = 3
@@ -69,3 +70,7 @@ grow_vertical = 0
 theme_override_colors/font_color = Color(0.6, 0.6, 0.6, 1)
 text = "Pressione ESPAÇO ou CLIQUE para continuar"
 horizontal_alignment = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=880915276]
+stream = ExtResource("3_yytb6")
+autoplay = true

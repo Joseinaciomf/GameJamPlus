@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dna3vqvs2sswq" path="res://Assets/UI/menucreditnew.png" id="5_uujw2"]
 [ext_resource type="Texture2D" uid="uid://omse4xwf6wgd" path="res://Assets/UI/menustartnew.png" id="7_20n10"]
 [ext_resource type="Texture2D" uid="uid://bsxnk1gnuujpu" path="res://Assets/UI/menuexitnew.png" id="8_7mijm"]
+[ext_resource type="AudioStream" uid="uid://de52k2nl41isd" path="res://Sons/Abertura.wav" id="13_c2y7a"]
 
 [node name="MainMenu" type="Control" unique_id=53005727]
 layout_mode = 3
@@ -187,6 +188,10 @@ theme_override_font_sizes/normal_font_size = 50
 text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=82018884]
+stream = ExtResource("13_c2y7a")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/HBox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBox/Start" to="." method="_on_start_pressed"]

@@ -9,6 +9,29 @@ const ATTACK_TEXTURE: Texture2D = preload("res://Assets/Carta de Ataque.png")
 const DEFENSE_TEXTURE: Texture2D = preload("res://Assets/Carta de Defesa.png")
 const COUNTER_TEXTURE: Texture2D = preload("res://Assets/Carta de Counter.png")
 
+# Sons de cada tipo de carta (jogador e inimigo).
+const SOM_ATAQUE: AudioStream = preload("res://Sons/CardAttack.wav")
+const SOM_DEFESA: AudioStream = preload("res://Sons/CardDefen.wav")
+const SOM_COUNTER: AudioStream = preload("res://Sons/CardEffectImpact.wav")
+
+# Reprodutor de efeitos criado automaticamente ao iniciar a cena.
+var card_sfx: AudioStreamPlayer
+
+func tocar_som_carta(tipo: String) -> void:
+	if card_sfx == null:
+		return
+	match tipo:
+		"Ataque":
+			card_sfx.stream = SOM_ATAQUE
+		"Defesa":
+			card_sfx.stream = SOM_DEFESA
+		"Counter":
+			card_sfx.stream = SOM_COUNTER
+		_:
+			return
+	card_sfx.play()
+
+
 # Arraste a imagem do "modelo de costas" aqui, no Inspector do nó CardGame.
 @export var enemy_back_texture: Texture2D
 
@@ -56,6 +79,12 @@ var _preview_card: Control
 
 func _ready() -> void:
 	randomize()
+
+	# O nó é criado por código: não precisa editar card_game.tscn.
+	card_sfx = AudioStreamPlayer.new()
+	card_sfx.name = "CardSFX"
+	card_sfx.volume_db = -5.0
+	add_child(card_sfx)
 
 	GlobalCard.vida_mudou.connect(_on_vida_mudou)
 	GlobalCard.turno_mudou.connect(_on_turno_mudou)
@@ -268,6 +297,7 @@ func _play_card(card: Control, lado: int) -> void:
 	if data != null:
 		print("[%s] Jogou: %s" % ["JOGADOR" if is_player else "INIMIGO", data.card_name])
 		preview = _spawn_preview(data, not is_player)
+		tocar_som_carta(data.card_type)
 		data.aplicar_efeito(lado)  # efeito definido no card_data.gd
 
 	var hold: float = PLAYER_PREVIEW_TIME if is_player else ENEMY_PREVIEW_TIME

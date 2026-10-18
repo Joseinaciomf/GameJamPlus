@@ -10,6 +10,22 @@ extends Control
 @export_file("*.tscn") var card_battle_scene_path: String = "res://Main/Scenes/card_game.tscn"
 @export_file("*.tscn") var tips_scene_path: String = "res://Main/Scenes/tips_screen.tscn"
 
+# Áudios da cena
+const MUSIC_ROOM: AudioStream = preload("res://Sons/GamePlayQ.wav")
+const SOUND_RAIN: AudioStream = preload("res://Sons/Rain.wav")
+const SOUND_SELECT: AudioStream = preload("res://Sons/Select.ogg")
+const SOUND_ANOMALY: AudioStream = preload("res://Sons/CardEfeito.mp3")
+const SOUND_BOSS: AudioStream = preload("res://Sons/SoundEnterFase.wav")
+
+@export_range(-40.0, 6.0, 1.0) var music_volume_db: float = -12.0
+@export_range(-40.0, 6.0, 1.0) var rain_volume_db: float = -20.0
+@export_range(-40.0, 6.0, 1.0) var effects_volume_db: float = -6.0
+
+var _music_player: AudioStreamPlayer
+var _rain_player: AudioStreamPlayer
+var _effects_player: AudioStreamPlayer
+var _boss_player: AudioStreamPlayer
+
 # Controle das anomalias encontradas
 var anomalies_found: Dictionary = {
 	"ANOMALIA_JANELA": false,
@@ -27,6 +43,7 @@ var was_dialogue_active: bool = false
 var is_tips_active: bool = true
 
 func _ready() -> void:
+	_configure_audio()
 	# Conecta dinamicamente todos os botões existentes em HotSpots
 	for child in hotspots_container.get_children():
 		if child is Button:
@@ -35,18 +52,45 @@ func _ready() -> void:
 	# Instancia a tela de dicas automaticamente no início da cena do quarto
 	spawn_tips_screen()
 
+func _make_audio_player(name: String, stream: AudioStream, volume: float, loop_audio: bool = false) -> AudioStreamPlayer:
+	var player := AudioStreamPlayer.new()
+	player.name = name
+	player.volume_db = volume
+	# Duplica o recurso para não afetar o áudio usado em outras cenas.
+	var local_stream: AudioStream = stream.duplicate()
+	if loop_audio:
+		if local_stream is AudioStreamWAV:
+			(local_stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+		elif local_stream is AudioStreamOggVorbis:
+			(local_stream as AudioStreamOggVorbis).loop = true
+	player.stream = local_stream
+	add_child(player)
+	return player
+
+func _configure_audio() -> void:
+	_music_player = _make_audio_player("MusicRoom", MUSIC_ROOM, music_volume_db, true)
+	_rain_player = _make_audio_player("RainAmbience", SOUND_RAIN, rain_volume_db, true)
+	_effects_player = _make_audio_player("HotspotSFX", SOUND_SELECT, effects_volume_db)
+	_boss_player = _make_audio_player("BossSFX", SOUND_BOSS, effects_volume_db)
+	_music_player.play()
+	_rain_player.play()
+
+func _play_effect(stream: AudioStream) -> void:
+	_effects_player.stream = stream
+	_effects_player.play()
+
 func _process(_delta: float) -> void:
 	if not dialogue_box:
 		return
-		
+
 	var is_dialogue_visible = dialogue_box.get_node("DialogueControl").visible
-	
+
 	# Detecta o momento exato em que a caixa de diálogo fecha
 	if is_dialogue_visible:
 		was_dialogue_active = true
 	elif was_dialogue_active and not is_dialogue_visible:
 		was_dialogue_active = false
-		
+
 		# Se a última anomalia acabou de fechar, dispara o chefe
 		if pending_boss_trigger:
 			pending_boss_trigger = false
@@ -79,14 +123,19 @@ func _on_hotspot_pressed(button_name: String) -> void:
 
 	match button_name:
 		"ObjetoEspelho":
+			_play_effect(SOUND_SELECT)
 			play_dialogue_prefix("OBJ_ESPELHO")
 		"ObjetoCama":
+			_play_effect(SOUND_SELECT)
 			play_dialogue_prefix("OBJ_CAMA")
 		"ObjetoEscrivaninha":
+			_play_effect(SOUND_SELECT)
 			play_dialogue_prefix("OBJ_ESCRIVANINHA")
 		"ObjetoGuardaRoupa":
+			_play_effect(SOUND_SELECT)
 			play_dialogue_prefix("OBJ_GUARDAROUPA")
 		"ObjetoPorta":
+			_play_effect(SOUND_SELECT)
 			play_dialogue_prefix("OBJ_PORTA")
 		"ObjetoJanela":
 			register_anomaly("ANOMALIA_JANELA")
@@ -99,7 +148,10 @@ func _on_hotspot_pressed(button_name: String) -> void:
 func register_anomaly(anomaly_prefix: String) -> void:
 	if not anomalies_found.get(anomaly_prefix, false):
 		anomalies_found[anomaly_prefix] = true
+		_play_effect(SOUND_ANOMALY)
 		print("Anomalia descoberta: ", anomaly_prefix)
+	else:
+		_play_effect(SOUND_SELECT)
 
 	play_dialogue_prefix(anomaly_prefix)
 	check_all_anomalies_found()
@@ -118,6 +170,10 @@ func check_all_anomalies_found() -> void:
 ## Dispara o diálogo de confronto com o Luto
 func trigger_boss_encounter() -> void:
 	print("Iniciando confronto com o Luto...")
+	# Reduz a trilha de fundo durante o confronto.
+	var fade := create_tween()
+	fade.tween_property(_music_player, "volume_db", music_volume_db - 10.0, 0.7)
+	_boss_player.play()
 	if dialogue_box:
 		dialogue_box.start_dialogue_filtered("LUTO_BOSS", "res://Assets/Dialogues/Dialogues.csv")
 		waiting_for_boss_dialogue = true
