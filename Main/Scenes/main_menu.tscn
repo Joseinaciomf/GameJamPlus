@@ -2,9 +2,10 @@
 
 [ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
-[ext_resource type="Texture2D" uid="uid://dvwmgmbrvu8gv" path="res://Assets/Environment/Menu-0.png" id="2_ut0wy"]
+[ext_resource type="Texture2D" uid="uid://xf1a5mkke8fi" path="res://Assets/Environment/Menu-ceu.png" id="2_altbm"]
 [ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="3_20n10"]
 [ext_resource type="Texture2D" uid="uid://dufyi36jnlexc" path="res://Assets/Environment/Menu-1.png" id="3_altbm"]
+[ext_resource type="Texture2D" uid="uid://bwp2i4ggogg0e" path="res://Assets/Environment/Menu-aqua.png" id="3_c2y7a"]
 [ext_resource type="Texture2D" uid="uid://dngw4jmddpjk6" path="res://Assets/Environment/Menu-2.png" id="4_c2y7a"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
 [ext_resource type="Texture2D" uid="uid://bg4c4w3v4mit3" path="res://Assets/Environment/Menu-3.png" id="5_i2qgb"]
@@ -22,18 +23,23 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_0fmu8")
-intensidade = Array[float]([0.0, 10.0, 20.0, 40.0])
+intensidade = Array[float]([0.0, 5.0, 8.0, 10.0, 20.0, 30.0])
 
-[node name="Camada0" type="Sprite2D" parent="." unique_id=555135665]
-texture = ExtResource("2_ut0wy")
+[node name="Camada1" type="Sprite2D" parent="." unique_id=1748552737]
+texture = ExtResource("2_altbm")
 
-[node name="Camada1" type="Sprite2D" parent="." unique_id=1028523327]
+[node name="Camada2" type="Sprite2D" parent="." unique_id=140262077]
+position = Vector2(0, -22)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("3_c2y7a")
+
+[node name="Camada3" type="Sprite2D" parent="." unique_id=1028523327]
 texture = ExtResource("3_altbm")
 
-[node name="Camada2" type="Sprite2D" parent="." unique_id=566875959]
+[node name="Camada4" type="Sprite2D" parent="." unique_id=566875959]
 texture = ExtResource("4_c2y7a")
 
-[node name="Camada3" type="Sprite2D" parent="." unique_id=1755774048]
+[node name="Camada5" type="Sprite2D" parent="." unique_id=1755774048]
 texture = ExtResource("5_i2qgb")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1800417167]

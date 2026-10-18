@@ -1,10 +1,11 @@
 extends Control
 
 # --- PARALLAX COM O MOUSE ---
-# Camadas: nós Sprite2D chamados Camada0, Camada1, Camada2 e Camada3.
-# 0 = fundo (mais distante, quase não se mexe) ... 3 = mais próxima (mexe mais).
+# Camadas: nós Sprite2D chamados Camada1, Camada2, Camada3, Camada4 e Camada5.
+# 1 = fundo (mais distante, quase não se mexe) ... 5 = mais próxima (mexe mais).
 # Intensidade = quantos pixels a camada se desloca quando o mouse vai até a borda da tela.
-@export var intensidade: Array[float] = [8.0, 20.0, 40.0, 70.0]
+# A lista do Inspector tem 5 valores: o elemento 0 é da Camada1, o 1 da Camada2, e assim por diante.
+@export var intensidade: Array[float] = [8.0, 16.0, 28.0, 45.0, 70.0]
 
 # Quanto maior, mais rápido a camada alcança o mouse (menor = mais "flutuante").
 @export_range(0.5, 20.0, 0.1) var suavidade: float = 5.0
@@ -12,19 +13,19 @@ extends Control
 # true = as camadas andam no sentido contrário ao mouse (efeito mais comum de profundidade).
 @export var inverter: bool = true
 
-const TOTAL_CAMADAS: int = 4
+const TOTAL_CAMADAS: int = 5
 
 var _camadas: Array[Node2D] = []
 var _posicoes_base: Array[Vector2] = []
 
 
 func _ready() -> void:
-	for i in range(TOTAL_CAMADAS):
-		var camada: Node2D = get_node_or_null("Camada%d" % i) as Node2D
+	for numero in range(1, TOTAL_CAMADAS + 1):
+		var camada: Node2D = get_node_or_null("Camada%d" % numero) as Node2D
 		if camada == null:
-			push_warning("main_menu: nó 'Camada%d' não encontrado." % i)
+			push_warning("main_menu: nó 'Camada%d' não encontrado." % numero)
 		else:
-			camada.z_index = -10 + i  # sempre atrás dos botões, na ordem 0 -> 3
+			camada.z_index = -10 + numero  # sempre atrás dos botões, na ordem 1 -> 5
 		_camadas.append(camada)  # mantém o índice mesmo se faltar uma camada
 		_posicoes_base.append(camada.position if camada != null else Vector2.ZERO)
 
