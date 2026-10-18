@@ -12,7 +12,7 @@ grow_vertical = 2
 script = ExtResource("1_trans")
 text_speed = 0.07
 dialogue_prefix = "TRANS_N2"
-next_scene_path = "res://Main/Scenes/room_night2.tscn"
+next_scene_path = "res://Main/Scenes/credits.tscn"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2122921489]
 layout_mode = 1
@@ -44,7 +44,7 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(800, 200)
 layout_mode = 2
 bbcode_enabled = true
-text = "[center]Carregando transição...[/center]"
+text = "[center]Carregando final...[/center]"
 fit_content = true
 scroll_active = false
 
