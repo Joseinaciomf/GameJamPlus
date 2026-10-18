@@ -13,6 +13,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yag01")
+card_battle_scene_path = null
+tips_scene_path = null
+music_volume_db = null
+rain_volume_db = null
+effects_volume_db = null
 
 [node name="Background" type="TextureRect" parent="." unique_id=864122031]
 layout_mode = 1
