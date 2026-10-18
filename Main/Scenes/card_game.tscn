@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://cvjb2yrbn6qqs" path="res://Assets/Deck.png" id="3_20usb"]
 [ext_resource type="Texture2D" uid="uid://cbjdvs4bafrsr" path="res://Assets/Environment/Tabuleiro.png" id="4_n03dq"]
 [ext_resource type="PackedScene" uid="uid://bp7lguymcp6ja" path="res://Main/Scenes/UICard.tscn" id="5_dqnje"]
+[ext_resource type="AudioStream" uid="uid://n724q5a873hs" path="res://Sons/CardGameP.wav" id="5_dqnje"]
 
 [node name="CardGame" type="Node2D" unique_id=239556577 node_paths=PackedStringArray("deck_jogador", "deck_inimigo")]
 script = ExtResource("1_ag1rv")
@@ -36,3 +37,9 @@ scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_20usb")
 
 [node name="UICard" parent="." unique_id=250764743 instance=ExtResource("5_dqnje")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=114892720]
+stream = ExtResource("5_dqnje")
+autoplay = true
+
+[node name="CardSFX" type="AudioStreamPlayer" parent="." unique_id=2069645560]

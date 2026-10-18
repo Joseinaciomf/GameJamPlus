@@ -7,6 +7,11 @@ extends CanvasLayer
 @onready var dialogue_control: Control = $DialogueControl
 @onready var next_indicator: Label = $DialogueControl/MainBox/NextIndicator
 
+# --- ÁUDIO DE AVANÇO DO DIÁLOGO ---
+const DIALOGUE_NEXT_SOUND: AudioStream = preload("res://Sons/SoundSelectButton.wav")
+@export_range(-40.0, 6.0, 1.0) var dialogue_sound_volume_db: float = -12.0
+var _dialogue_sound_player: AudioStreamPlayer
+
 # --- VARIÁVEIS DE CONFIGURAÇÃO ---
 @export var text_speed: float = 0.03 # Velocidade da digitação
 
@@ -18,6 +23,13 @@ var tween: Tween
 var indicator_tween: Tween
 
 func _ready() -> void:
+	_dialogue_sound_player = AudioStreamPlayer.new()
+	_dialogue_sound_player.name = "DialogueNextSFX"
+	_dialogue_sound_player.stream = DIALOGUE_NEXT_SOUND
+	_dialogue_sound_player.volume_db = dialogue_sound_volume_db
+	add_child(_dialogue_sound_player)
+
+	# Oculta a caixa de diálogo e o indicador por padrão
 	# Oculta por padrão
 	dialogue_control.visible = false
 	portrait.visible = false
@@ -33,24 +45,26 @@ func _input(event: InputEvent) -> void:
 
 	if is_click or is_space:
 		get_viewport().set_input_as_handled()
-		
+
 		if is_typing:
 			finish_typing_instantly()
 		else:
+			# Se já terminou de digitar, passa para a próxima fala ou fecha a caixa
+			_dialogue_sound_player.play()
 			advance_dialogue()
 
 ## Inicializa um diálogo filtrando os IDs pelo prefixo
 func start_dialogue_filtered(prefix: String, csv_path: String) -> void:
 	text_database = load_csv_data(csv_path)
 	var full_sequence = load_json_data("res://Assets/Dialogues/dialogues.json")
-	
+
 	current_sequence = []
 	for entry in full_sequence:
 		if entry["id"].begins_with(prefix):
 			current_sequence.append(entry)
-			
+
 	current_index = 0
-	
+
 	if current_sequence.size() > 0:
 		dialogue_control.visible = true
 		display_current_line()
@@ -66,14 +80,19 @@ func load_csv_data(file_path: String) -> Dictionary:
 
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	var is_header: bool = true
-	
+
 	while not file.eof_reached():
 		var line: PackedStringArray = file.get_csv_line()
 		if is_header:
 			is_header = false
 			continue
-		
+
 		if line.size() >= 3:
+			var id = line[0].strip_edges()
+			var name = line[1].strip_edges()
+			var text = line[2].strip_edges()
+			db[id] = {"name": name, "text": text}
+
 			db[line[0].strip_edges()] = {"name": line[1].strip_edges(), "text": line[2].strip_edges()}
 			
 	return db
@@ -86,6 +105,9 @@ func load_json_data(file_path: String) -> Array:
 
 	var file = FileAccess.open(file_path, FileAccess.READ)
 	var json = JSON.new()
+	var error = json.parse(json_string)
+
+	if error == OK:
 	if json.parse(file.get_as_text()) == OK:
 		return json.data
 	return []
@@ -105,6 +127,10 @@ func display_current_line() -> void:
 	name_label.text = text_database[id]["name"]
 	var line_text = text_database[id]["text"]
 
+	# Atualiza o Nome
+	name_label.text = name_text
+
+	# Atualiza o Portrait
 	# Atualiza o Portrait (Sprite centralizado de corpo inteiro por trás da caixa de texto)
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		portrait.texture = load(portrait_path)
@@ -147,7 +173,7 @@ func advance_dialogue() -> void:
 func start_indicator_animation() -> void:
 	if not next_indicator:
 		return
-		
+
 	next_indicator.visible = true
 	if indicator_tween:
 		indicator_tween.kill()
