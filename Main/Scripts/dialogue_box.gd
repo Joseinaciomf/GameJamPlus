@@ -3,12 +3,12 @@ extends CanvasLayer
 # --- REFERÊNCIAS DOS NÓS ---
 @onready var name_label: RichTextLabel = $DialogueControl/NameBox/MarginContainer/NameLabel
 @onready var text_label: RichTextLabel = $DialogueControl/MainBox/MarginContainer/HBoxContainer/TextLabel
-@onready var portrait: TextureRect = $DialogueControl/MainBox/MarginContainer/HBoxContainer/Portrait
+@onready var portrait: TextureRect = $Portrait
 @onready var dialogue_control: Control = $DialogueControl
 @onready var next_indicator: Label = $DialogueControl/MainBox/NextIndicator
 
 # --- VARIÁVEIS DE CONFIGURAÇÃO ---
-@export var text_speed: float = 0.03 # Velocidade da digitação do texto (em segundos por caractere)
+@export var text_speed: float = 0.03 # Velocidade da digitação
 
 var current_sequence: Array = []
 var text_database: Dictionary = {}
@@ -18,8 +18,9 @@ var tween: Tween
 var indicator_tween: Tween
 
 func _ready() -> void:
-	# Oculta a caixa de diálogo e o indicador por padrão
+	# Oculta por padrão
 	dialogue_control.visible = false
+	portrait.visible = false
 	if next_indicator:
 		next_indicator.visible = false
 
@@ -27,22 +28,18 @@ func _input(event: InputEvent) -> void:
 	if not dialogue_control.visible:
 		return
 
-	# Verifica se foi um clique do mouse ou a tecla Espaço/ui_accept
 	var is_click: bool = event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed
 	var is_space: bool = event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_select")
 
 	if is_click or is_space:
-		# Consome o evento para evitar que acione outros botões do fundo no mesmo frame
 		get_viewport().set_input_as_handled()
 		
 		if is_typing:
-			# Se ainda está digitando, completa o texto instantaneamente
 			finish_typing_instantly()
 		else:
-			# Se já terminou de digitar, passa para a próxima fala ou fecha a caixa
 			advance_dialogue()
 
-## Inicializa um diálogo filtrando os IDs do JSON pelo prefixo informado
+## Inicializa um diálogo filtrando os IDs pelo prefixo
 func start_dialogue_filtered(prefix: String, csv_path: String) -> void:
 	text_database = load_csv_data(csv_path)
 	var full_sequence = load_json_data("res://Assets/Dialogues/dialogues.json")
@@ -60,7 +57,7 @@ func start_dialogue_filtered(prefix: String, csv_path: String) -> void:
 	else:
 		printerr("Nenhum diálogo encontrado com o prefixo: ", prefix)
 
-## Leitor nativo do arquivo CSV
+## Leitor do CSV
 func load_csv_data(file_path: String) -> Dictionary:
 	var db: Dictionary = {}
 	if not FileAccess.file_exists(file_path):
@@ -77,29 +74,21 @@ func load_csv_data(file_path: String) -> Dictionary:
 			continue
 		
 		if line.size() >= 3:
-			var id = line[0].strip_edges()
-			var name = line[1].strip_edges()
-			var text = line[2].strip_edges()
-			db[id] = {"name": name, "text": text}
+			db[line[0].strip_edges()] = {"name": line[1].strip_edges(), "text": line[2].strip_edges()}
 			
 	return db
 
-## Leitor nativo do arquivo JSON
+## Leitor do JSON
 func load_json_data(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):
 		printerr("Arquivo JSON não encontrado: ", file_path)
 		return []
 
 	var file = FileAccess.open(file_path, FileAccess.READ)
-	var json_string = file.get_as_text()
 	var json = JSON.new()
-	var error = json.parse(json_string)
-	
-	if error == OK:
+	if json.parse(file.get_as_text()) == OK:
 		return json.data
-	else:
-		printerr("Erro ao ler JSON: ", json.get_error_message())
-		return []
+	return []
 
 ## Exibe a fala atual na tela
 func display_current_line() -> void:
@@ -110,24 +99,20 @@ func display_current_line() -> void:
 	var portrait_path = entry.get("portrait", "")
 
 	if not text_database.has(id):
-		printerr("ID não encontrado no CSV: ", id)
 		advance_dialogue()
 		return
 
-	var name_text = text_database[id]["name"]
+	name_label.text = text_database[id]["name"]
 	var line_text = text_database[id]["text"]
 
-	# Atualiza o Nome
-	name_label.text = name_text
-	
-	# Atualiza o Portrait
+	# Atualiza o Portrait (Sprite centralizado de corpo inteiro por trás da caixa de texto)
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		portrait.texture = load(portrait_path)
 		portrait.visible = true
 	else:
 		portrait.visible = false
 
-	# Animação do Texto estilo "Máquina de Escrever"
+	# Animação de digitação
 	text_label.text = line_text
 	text_label.visible_characters = 0
 	is_typing = true
@@ -140,28 +125,25 @@ func display_current_line() -> void:
 	tween.tween_property(text_label, "visible_characters", line_text.length(), total_time)
 	tween.finished.connect(_on_typing_finished)
 
-## Chamado quando a animação de digitação termina
 func _on_typing_finished() -> void:
 	is_typing = false
 	start_indicator_animation()
 
-## Completa a linha atual sem esperar a animação
 func finish_typing_instantly() -> void:
 	if tween:
 		tween.kill()
 	text_label.visible_characters = text_label.text.length()
 	_on_typing_finished()
 
-## Avança para a próxima fala ou fecha a caixa caso não haja mais diálogos
 func advance_dialogue() -> void:
 	current_index += 1
 	if current_index < current_sequence.size():
 		display_current_line()
 	else:
 		stop_indicator_animation()
-		dialogue_control.visible = false # Fim da sequência: fecha a caixa de diálogo
+		dialogue_control.visible = false
+		portrait.visible = false # Fecha o sprite da sombra ao encerrar a conversa
 
-## Inicia a animação de flutuação da setinha no canto inferior direito
 func start_indicator_animation() -> void:
 	if not next_indicator:
 		return
@@ -171,11 +153,9 @@ func start_indicator_animation() -> void:
 		indicator_tween.kill()
 
 	indicator_tween = create_tween().set_loops()
-	# Faz a setinha flutuar levemente 5 pixels para baixo e voltar
 	indicator_tween.tween_property(next_indicator, "position:y", 5.0, 0.4).as_relative().set_trans(Tween.TRANS_SINE)
 	indicator_tween.tween_property(next_indicator, "position:y", -5.0, 0.4).as_relative().set_trans(Tween.TRANS_SINE)
 
-## Para e esconde a setinha enquanto o texto está sendo escrito
 func stop_indicator_animation() -> void:
 	if indicator_tween:
 		indicator_tween.kill()
