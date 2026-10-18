@@ -4,6 +4,7 @@ INTRO_02,Narrador,"Não consigo me lembrar de nada... Meu nome, meu rosto, quem 
 INTRO_03,Contrato,"Mas sinto algo dentro de mim... Alguma coisa está me chamando."
 INTRO_04,Contrato,"O que está acontecendo comigo?"
 INTRO_05,Narrador,"Que... lugar é este?"
+SOMBRA_01,Sombra,"Teste"
 OBJ_ESPELHO_01,???,"Não há reflexo..."
 OBJ_CAMA_01,???,"Parece confortável... Ao tocar os lençóis macios, sou tomada por uma estranha sensação de déjà-vu. O cheiro deles me é agradável, de alguma forma familiar."
 OBJ_ESCRIVANINHA_01,???,"Não Parece ter nada aqui dentro"
