@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bp7lguymcp6ja"]
+
+[ext_resource type="Texture2D" uid="uid://dgqyc74mouuia" path="res://Assets/UI/Vida.png" id="1_45pjg"]
+[ext_resource type="Script" uid="uid://cr320a45b6gdt" path="res://Main/Scripts/ui_card.gd" id="1_kaua6"]
+[ext_resource type="Texture2D" uid="uid://c67nrxl0owfkn" path="res://Assets/UI/Escudo.png" id="3_8h285"]
+[ext_resource type="Texture2D" uid="uid://cc7m36bpcr3by" path="res://Assets/UI/Vida-Inimigo.png" id="3_jhbxt"]
+
+[node name="UICard" type="Control" unique_id=250764743]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -1.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kaua6")
+
+[node name="ContainerPlayer" type="Container" parent="." unique_id=1451284105]
+custom_maximum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 51.0
+offset_top = 541.0
+offset_right = 115.0
+offset_bottom = 605.0
+
+[node name="VidaPlayerIcon" type="Sprite2D" parent="ContainerPlayer" unique_id=1251253531]
+position = Vector2(32, 34)
+texture = ExtResource("1_45pjg")
+
+[node name="EscudoPlayer" type="Sprite2D" parent="ContainerPlayer" unique_id=2111124072]
+position = Vector2(100, 36)
+texture = ExtResource("3_8h285")
+
+[node name="VidaPlayer" type="RichTextLabel" parent="ContainerPlayer" unique_id=1734728700]
+layout_mode = 2
+text = "99"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EscudoPlayerNum" type="RichTextLabel" parent="ContainerPlayer" unique_id=1038959878]
+layout_mode = 2
+text = "10"
+
+[node name="ContainerInimigo" type="Container" parent="." unique_id=360988167]
+layout_mode = 0
+offset_left = 988.0
+offset_top = 89.0
+offset_right = 1028.0
+offset_bottom = 129.0
+
+[node name="VidaInimigoIcon" type="Sprite2D" parent="ContainerInimigo" unique_id=849190926]
+texture = ExtResource("3_jhbxt")
+
+[node name="Escudo" type="Sprite2D" parent="ContainerInimigo" unique_id=57702876]
+position = Vector2(-68, 0)
+texture = ExtResource("3_8h285")
+
+[node name="VidaInimigo" type="RichTextLabel" parent="ContainerInimigo" unique_id=660974911]
+layout_mode = 2
+text = "99"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EscudoInimigoNum" type="RichTextLabel" parent="ContainerInimigo" unique_id=1425838099]
+layout_mode = 2
+text = "10"
