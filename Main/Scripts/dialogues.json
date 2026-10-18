@@ -1,0 +1,70 @@
+[
+  {
+	"id": "INTRO_01",
+	"portrait": ""
+  },
+  {
+	"id": "INTRO_02",
+	"portrait": ""
+  },
+  {
+	"id": "INTRO_03",
+	"portrait": "res://Assets/Portraits/contract_icon.png"
+  },
+  {
+	"id": "INTRO_04",
+	"portrait": "res://Assets/Portraits/contract_icon.png"
+  },
+  {
+	"id": "INTRO_05",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_ESPELHO_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_CAMA_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_ESCRIVANINHA_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_GUARDAROUPA_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_PORTA_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_JANELA_01",
+	"portrait": ""
+  },
+  {
+	"id": "OBJ_QUADRO_01",
+	"portrait": ""
+  },
+  {
+	"id": "Sombra_01",
+	"portrait": "res://Assets/Portraits/Sombra.png"
+  },
+  {
+	"id": "Sombra_02",
+	"portrait": "res://Assets/Portraits/Sombra.png"
+  },
+  {
+	"id": "Sombra_03",
+	"portrait": "res://Assets/Portraits/Sombra.png"
+  },
+  {
+	"id": "Sombra_04",
+	"portrait": "res://Assets/Portraits/Sombra.png"
+  },
+  {
+	"id": "Sombra_05",
+	"portrait": "res://Assets/Portraits/Sombra.png"
+  }
+]
