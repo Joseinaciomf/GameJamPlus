@@ -6,10 +6,10 @@ uid="uid://0qvd2ccjoi3j"
 
 [deps]
 
-files=["res://Main/Scripts/Dialogues.character.translation", "res://Main/Scripts/Dialogues.text.translation"]
+files=["res://Assets/Dialogues/Dialogues.character.translation", "res://Assets/Dialogues/Dialogues.text.translation"]
 
 source_file="res://Assets/Dialogues/Dialogues.csv"
-dest_files=["res://Main/Scripts/Dialogues.character.translation", "res://Main/Scripts/Dialogues.text.translation"]
+dest_files=["res://Assets/Dialogues/Dialogues.character.translation", "res://Assets/Dialogues/Dialogues.text.translation"]
 
 [params]
 
