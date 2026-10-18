@@ -106,36 +106,7 @@ func play_dialogue_prefix(prefix: String) -> void:
 		dialogue_box.start_dialogue_filtered(prefix, "res://Assets/Dialogues/Dialogues.csv")
 
 func start_card_battle() -> void:
-	print("[ROOM] Tentando iniciar batalha de cartas...")
-	print("[ROOM] Caminho da cena: ", card_battle_scene_path)
-
-	if card_battle_scene_path.is_empty():
-		push_error("[ROOM] O caminho da batalha está vazio!")
-		return
-
-	if not ResourceLoader.exists(card_battle_scene_path):
-		push_error("[ROOM] Cena não encontrada: " + card_battle_scene_path)
-		return
-
-	var battle_scene: PackedScene = ResourceLoader.load(
-		card_battle_scene_path, "PackedScene"
-	) as PackedScene
-
-	if battle_scene == null:
-		push_error("[ROOM] Não foi possível carregar a cena de cartas.")
-		return
-
-	var test_instance: Node = battle_scene.instantiate()
-
-	if test_instance == null:
-		push_error("[ROOM] A cena de cartas não pôde ser instanciada. Verifique as dependências da cena.")
-		return
-
-	test_instance.free()
-
-	var error: Error = get_tree().change_scene_to_packed(battle_scene)
-
-	if error != OK:
-		push_error("[ROOM] Erro ao mudar para a cena de cartas: " + error_string(error))
+	if ResourceLoader.exists(card_battle_scene_path):
+		get_tree().change_scene_to_file(card_battle_scene_path)
 	else:
-		print("[ROOM] Transição para a batalha solicitada.")
+		printerr("Cena de combate de cartas não encontrada em: ", card_battle_scene_path)

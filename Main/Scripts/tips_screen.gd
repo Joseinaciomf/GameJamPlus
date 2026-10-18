@@ -7,7 +7,8 @@ signal tips_toggled(is_open: bool)
 @onready var btn_entendi: Button = $CenterContainer/PanelContainer/MarginContainer/VBoxContainer/BtnEntendi
 @onready var btn_abrir_dicas: TextureButton = $BtnAbrirDicas
 
-var is_panel_open: bool = true
+# Começa como falso para o painel vir fechado por padrão
+var is_panel_open: bool = false
 
 func _ready() -> void:
 	if btn_entendi:
@@ -15,8 +16,15 @@ func _ready() -> void:
 	
 	if btn_abrir_dicas:
 		btn_abrir_dicas.pressed.connect(_on_btn_abrir_dicas_pressed)
-		# Esconde o botão flutuante enquanto o painel inicial estiver aberto
-		btn_abrir_dicas.visible = false
+	
+	# Estado inicial: Esconde o painel de dicas e deixa o botão "?" visível
+	if center_container:
+		center_container.visible = false
+	if btn_abrir_dicas:
+		btn_abrir_dicas.visible = true
+		
+	# Garante que os cliques no quarto estejam liberados desde o início
+	tips_toggled.emit(false)
 
 func _on_btn_entendi_pressed() -> void:
 	close_tips_panel()
@@ -31,10 +39,10 @@ func open_tips_panel() -> void:
 	is_panel_open = true
 	center_container.visible = true
 	btn_abrir_dicas.visible = false
-	tips_toggled.emit(true) # Bloqueia cliques nos objetos do quarto
+	tips_toggled.emit(true) # Bloqueia cliques nos objetos do quarto enquanto lê as dicas
 
 func close_tips_panel() -> void:
 	is_panel_open = false
 	center_container.visible = false
-	btn_abrir_dicas.visible = true # Mostra o botão "?" no canto superior direito
+	btn_abrir_dicas.visible = true # Mostra o botão "?" no canto
 	tips_toggled.emit(false) # Libera cliques nos objetos do quarto
