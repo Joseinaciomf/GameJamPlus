@@ -3,10 +3,11 @@
 [ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
 [ext_resource type="Texture2D" uid="uid://bk7xvybtxq4wd" path="res://Assets/Environment/Menu.png" id="2_qeql0"]
-[ext_resource type="Texture2D" uid="uid://bllyj1und2ij1" path="res://Assets/UI/menucredit.png" id="3_0fmu8"]
-[ext_resource type="Texture2D" uid="uid://1ehl7qdxtd8d" path="res://Assets/UI/menustart.png" id="3_dskt3"]
+[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="3_20n10"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
-[ext_resource type="Texture2D" uid="uid://b2dfmasxwm1hn" path="res://Assets/UI/menuexit.png" id="6_uujw2"]
+[ext_resource type="Texture2D" uid="uid://dna3vqvs2sswq" path="res://Assets/UI/menucreditnew.png" id="5_uujw2"]
+[ext_resource type="Texture2D" uid="uid://omse4xwf6wgd" path="res://Assets/UI/menustartnew.png" id="7_20n10"]
+[ext_resource type="Texture2D" uid="uid://bsxnk1gnuujpu" path="res://Assets/UI/menuexitnew.png" id="8_7mijm"]
 
 [node name="MainMenu" type="Node2D" unique_id=1428131579]
 script = ExtResource("1_0fmu8")
@@ -35,10 +36,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -280.0
-offset_top = 2.0
-offset_right = -280.0
-offset_bottom = 2.0
+offset_left = -270.0
+offset_top = 12.0
+offset_right = -270.0
+offset_bottom = 12.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 90
@@ -47,18 +48,20 @@ theme_override_constants/separation = 90
 custom_minimum_size = Vector2(0, 200)
 clip_contents = false
 layout_mode = 2
-theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
-theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
-theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_colors/default_color = Color(0.99, 0.99, 0.99, 1)
+theme_override_colors/font_outline_color = Color(0.45, 0.15750001, 0.3281249, 1)
+theme_override_colors/font_shadow_color = Color(0.48364222, 0, 0.14181286, 1)
 theme_override_constants/line_separation = 0
 theme_override_constants/paragraph_separation = 0
 theme_override_constants/shadow_outline_size = 20
 theme_override_constants/shadow_offset_y = 8
 theme_override_constants/outline_size = 20
 theme_override_constants/text_highlight_h_padding = 10
-theme_override_fonts/normal_font = ExtResource("4_qeql0")
-theme_override_font_sizes/normal_font_size = 150
-text = "JOGO"
+theme_override_fonts/normal_font = ExtResource("3_20n10")
+theme_override_font_sizes/normal_font_size = 100
+text = "Again, 
+before dawn"
+scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -71,7 +74,7 @@ script = ExtResource("1_mchxw")
 [node name="Credits" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=222310334]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
-texture_normal = ExtResource("3_0fmu8")
+texture_normal = ExtResource("5_uujw2")
 stretch_mode = 4
 
 [node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Credits" unique_id=1309344023]
@@ -88,9 +91,9 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
-theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
-theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.62, 0, 0.010333176, 1)
+theme_override_colors/font_shadow_color = Color(0.7, 0, 0.24499993, 1)
 theme_override_constants/line_separation = 0
 theme_override_constants/paragraph_separation = 0
 theme_override_constants/shadow_outline_size = 5
@@ -106,7 +109,7 @@ vertical_alignment = 1
 [node name="Start" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=30622807]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
-texture_normal = ExtResource("3_dskt3")
+texture_normal = ExtResource("7_20n10")
 stretch_mode = 4
 
 [node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Start" unique_id=1303022063]
@@ -123,9 +126,9 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
-theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
-theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.62, 0, 0.010333176, 1)
+theme_override_colors/font_shadow_color = Color(0.7, 0, 0.24499993, 1)
 theme_override_constants/line_separation = 0
 theme_override_constants/paragraph_separation = 0
 theme_override_constants/shadow_outline_size = 5
@@ -141,7 +144,7 @@ vertical_alignment = 1
 [node name="Exit" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=837269671]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
-texture_normal = ExtResource("6_uujw2")
+texture_normal = ExtResource("8_7mijm")
 stretch_mode = 4
 
 [node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Exit" unique_id=210824881]
@@ -158,9 +161,9 @@ offset_bottom = 50.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-theme_override_colors/default_color = Color(0.8195427, 0.83592176, 0.9864126, 1)
-theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
-theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.62, 0, 0.010333176, 1)
+theme_override_colors/font_shadow_color = Color(0.7, 0, 0.24499993, 1)
 theme_override_constants/line_separation = 0
 theme_override_constants/paragraph_separation = 0
 theme_override_constants/shadow_outline_size = 5
