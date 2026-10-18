@@ -119,11 +119,11 @@ func _build_deck_from(ataques: int, defesas: int, counters: int) -> Array[CardDa
 	var new_deck: Array[CardData] = []
 
 	for i in range(ataques):
-		new_deck.append(_make_card_data("Carta de Ataque", "Uma carta do tipo ataque.", "Ataque", ATTACK_TEXTURE))
+		new_deck.append(_make_card_data("Carta de Ataque", "Causa 6 de dano ao adversário.", "Ataque", ATTACK_TEXTURE))
 	for i in range(defesas):
-		new_deck.append(_make_card_data("Carta de Defesa", "Uma carta do tipo defesa.", "Defesa", DEFENSE_TEXTURE))
+		new_deck.append(_make_card_data("Carta de Defesa", "Cria 6 pontos de escudo para o usuário.", "Defesa", DEFENSE_TEXTURE))
 	for i in range(counters):
-		new_deck.append(_make_card_data("Carta de Counter", "Uma carta do tipo counter.", "Counter", COUNTER_TEXTURE))
+		new_deck.append(_make_card_data("Carta de Counter", "Se sofrer um ataque, retorna 10 de dano ao adversário.", "Counter", COUNTER_TEXTURE))
 
 	new_deck.shuffle()
 	return new_deck
