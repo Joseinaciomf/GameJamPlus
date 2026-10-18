@@ -26,11 +26,12 @@ var _preview_timer: Timer
 
 func _ready() -> void:
 	custom_minimum_size = Vector2(128, 192)
-	size = Vector2(128, 192)
-
-	carta.position = size / 2.0
-	carta.scale = Vector2(1.25, 1.25)
+	#size = Vector2(128, 192)
+	#carta.position = size / 2.0
+	#carta.scale = Vector2(1.25, 1.25)
 	base_card_scale = Vector2(1.25, 1.25)
+	nome.pivot_offset = carta.position - nome.position
+	descricao.pivot_offset = carta.position - descricao.position
 
 	if is_enemy:
 		# Carta do inimigo: sem mouse (sem hover/clique) e sem textos.
@@ -57,7 +58,8 @@ func _ready() -> void:
 	add_child(_preview_timer)
 
 	atualizar_visual()
-
+	print("nome: ", nome.position, " ", nome.size)
+	print("desc: ", descricao.position, " ", descricao.size)
 
 func atualizar_visual() -> void:
 	if card_data == null:

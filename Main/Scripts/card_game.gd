@@ -31,7 +31,7 @@ const PLAYER_PREVIEW_TIME: float = 1.0  # tempo que a carta do jogador fica vis√
 const ENEMY_PREVIEW_TIME: float = 1.3   # tempo que a carta do inimigo fica vis√≠vel
 
 # Preview de carta (direita = hover do jogador, esquerda = carta jogada pelo inimigo)
-const PREVIEW_SCALE: float = 1.75
+const PREVIEW_SCALE: float = 2
 const PREVIEW_MARGIN: float = 60.0
 const PREVIEW_SLIDE: float = 60.0
 const PREVIEW_TIME: float = 0.3

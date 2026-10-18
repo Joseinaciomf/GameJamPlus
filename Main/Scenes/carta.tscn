@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://bu1u6xpu0lpyq" path="res://Main/Scripts/carta.gd" id="1_j6biq"]
 [ext_resource type="Texture2D" uid="uid://c0bjck2r4vscv" path="res://Assets/Modelo de Carta.png" id="1_nrcwn"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="3_nmks0"]
-[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="4_2dltb"]
 
 [node name="Control" type="Control" unique_id=63590053]
 custom_minimum_size = Vector2(160, 240)
@@ -19,10 +18,12 @@ scale = Vector2(1.25, 1.25)
 texture = ExtResource("1_nrcwn")
 
 [node name="Nome" type="RichTextLabel" parent="." unique_id=322743754]
+texture_filter = 1
 layout_mode = 0
-offset_top = 105.0
-offset_right = 140.0
-offset_bottom = 127.0
+offset_left = 10.0
+offset_top = 130.0
+offset_right = 150.0
+offset_bottom = 152.0
 mouse_filter = 2
 theme_override_fonts/normal_font = ExtResource("3_nmks0")
 theme_override_font_sizes/normal_font_size = 10
@@ -32,19 +33,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Descrição" type="RichTextLabel" parent="." unique_id=672660139]
+texture_filter = 1
 layout_mode = 0
-offset_left = 2.0
-offset_top = 130.0
-offset_right = 138.0
-offset_bottom = 174.0
+offset_left = 25.0
+offset_top = 157.0
+offset_right = 134.0
+offset_bottom = 203.0
 mouse_filter = 2
-theme_override_fonts/normal_font = ExtResource("4_2dltb")
+theme_override_fonts/normal_font = ExtResource("3_nmks0")
 theme_override_font_sizes/normal_font_size = 8
 text = "descrição"
 scroll_active = false
 autowrap_mode = 2
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
