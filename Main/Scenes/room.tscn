@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://duoel5hkgpioa"]
+[gd_scene format=3 uid="uid://bx6vnpp8q5gls"]
 
 [ext_resource type="PackedScene" uid="uid://dninsfv5boedt" path="res://Assets/Dialogues/dialogue_box.tscn" id="1_xjo8h"]
 [ext_resource type="Script" uid="uid://dec3y1mu5wv87" path="res://Main/Scripts/room.gd" id="1_yag01"]
@@ -13,11 +13,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_yag01")
-card_battle_scene_path = null
-tips_scene_path = null
-music_volume_db = null
-rain_volume_db = null
-effects_volume_db = null
 
 [node name="Background" type="TextureRect" parent="." unique_id=864122031]
 layout_mode = 1
