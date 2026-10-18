@@ -13,7 +13,7 @@ const DIALOGUE_NEXT_SOUND: AudioStream = preload("res://Sons/SoundSelectButton.w
 var _dialogue_sound_player: AudioStreamPlayer
 
 # --- VARIÁVEIS DE CONFIGURAÇÃO ---
-@export var text_speed: float = 0.03 # Velocidade da digitação
+@export var text_speed: float = 0.03
 
 var current_sequence: Array = []
 var text_database: Dictionary = {}
@@ -29,8 +29,6 @@ func _ready() -> void:
 	_dialogue_sound_player.volume_db = dialogue_sound_volume_db
 	add_child(_dialogue_sound_player)
 
-	# Oculta a caixa de diálogo e o indicador por padrão
-	# Oculta por padrão
 	dialogue_control.visible = false
 	portrait.visible = false
 	if next_indicator:
@@ -45,100 +43,103 @@ func _input(event: InputEvent) -> void:
 
 	if is_click or is_space:
 		get_viewport().set_input_as_handled()
-
 		if is_typing:
 			finish_typing_instantly()
 		else:
-			# Se já terminou de digitar, passa para a próxima fala ou fecha a caixa
 			_dialogue_sound_player.play()
 			advance_dialogue()
 
-## Inicializa um diálogo filtrando os IDs pelo prefixo
+# Inicializa um diálogo filtrando os IDs pelo prefixo
 func start_dialogue_filtered(prefix: String, csv_path: String) -> void:
 	text_database = load_csv_data(csv_path)
-	var full_sequence = load_json_data("res://Assets/Dialogues/dialogues.json")
+	var full_sequence: Array = load_json_data("res://Assets/Dialogues/dialogues.json")
 
 	current_sequence = []
 	for entry in full_sequence:
-		if entry["id"].begins_with(prefix):
+		if entry is Dictionary and str(entry.get("id", "")).begins_with(prefix):
 			current_sequence.append(entry)
 
 	current_index = 0
-
-	if current_sequence.size() > 0:
+	if not current_sequence.is_empty():
 		dialogue_control.visible = true
 		display_current_line()
 	else:
 		printerr("Nenhum diálogo encontrado com o prefixo: ", prefix)
 
-## Leitor do CSV
+# Leitor do CSV
 func load_csv_data(file_path: String) -> Dictionary:
 	var db: Dictionary = {}
 	if not FileAccess.file_exists(file_path):
 		printerr("Arquivo CSV não encontrado: ", file_path)
 		return db
 
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	var is_header: bool = true
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		printerr("Não foi possível abrir CSV: ", file_path)
+		return db
 
+	var is_header: bool = true
 	while not file.eof_reached():
 		var line: PackedStringArray = file.get_csv_line()
 		if is_header:
 			is_header = false
 			continue
-
 		if line.size() >= 3:
-			var id = line[0].strip_edges()
-			var name = line[1].strip_edges()
-			var text = line[2].strip_edges()
-			db[id] = {"name": name, "text": text}
-
-			db[line[0].strip_edges()] = {"name": line[1].strip_edges(), "text": line[2].strip_edges()}
-			
+			var id: String = line[0].strip_edges()
+			var character_name: String = line[1].strip_edges()
+			var content: String = line[2].strip_edges()
+			db[id] = {"name": character_name, "text": content}
 	return db
 
-## Leitor do JSON
+# Leitor do JSON
 func load_json_data(file_path: String) -> Array:
 	if not FileAccess.file_exists(file_path):
 		printerr("Arquivo JSON não encontrado: ", file_path)
 		return []
 
-	var file = FileAccess.open(file_path, FileAccess.READ)
-	var json = JSON.new()
-	var error = json.parse(json_string)
+	var file: FileAccess = FileAccess.open(file_path, FileAccess.READ)
+	if file == null:
+		printerr("Não foi possível abrir JSON: ", file_path)
+		return []
 
-	if error == OK:
-	if json.parse(file.get_as_text()) == OK:
+	var json: JSON = JSON.new()
+	var error: Error = json.parse(file.get_as_text())
+	if error != OK:
+		printerr("Erro ao ler JSON: ", json.get_error_message())
+		return []
+	if json.data is Array:
 		return json.data
+	printerr("O arquivo JSON precisa conter uma lista de diálogos: ", file_path)
 	return []
 
-## Exibe a fala atual na tela
+# Exibe a fala atual na tela
 func display_current_line() -> void:
 	stop_indicator_animation()
 
-	var entry = current_sequence[current_index]
-	var id = entry["id"]
-	var portrait_path = entry.get("portrait", "")
-
-	if not text_database.has(id):
+	if current_index >= current_sequence.size():
 		advance_dialogue()
 		return
 
-	name_label.text = text_database[id]["name"]
-	var line_text = text_database[id]["text"]
+	var entry: Dictionary = current_sequence[current_index]
+	var id: String = str(entry.get("id", ""))
+	var portrait_path: String = str(entry.get("portrait", ""))
 
-	# Atualiza o Nome
+	if not text_database.has(id):
+		printerr("ID não encontrado no CSV: ", id)
+		advance_dialogue()
+		return
+
+	var name_text: String = str(text_database[id]["name"])
+	var line_text: String = str(text_database[id]["text"])
 	name_label.text = name_text
 
-	# Atualiza o Portrait
-	# Atualiza o Portrait (Sprite centralizado de corpo inteiro por trás da caixa de texto)
+	# Mantém o retrato independente da caixa, conforme a versão da main.
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
 		portrait.texture = load(portrait_path)
 		portrait.visible = true
 	else:
 		portrait.visible = false
 
-	# Animação de digitação
 	text_label.text = line_text
 	text_label.visible_characters = 0
 	is_typing = true
@@ -147,7 +148,7 @@ func display_current_line() -> void:
 		tween.kill()
 
 	tween = create_tween()
-	var total_time = line_text.length() * text_speed
+	var total_time: float = line_text.length() * text_speed
 	tween.tween_property(text_label, "visible_characters", line_text.length(), total_time)
 	tween.finished.connect(_on_typing_finished)
 
@@ -158,7 +159,7 @@ func _on_typing_finished() -> void:
 func finish_typing_instantly() -> void:
 	if tween:
 		tween.kill()
-	text_label.visible_characters = text_label.text.length()
+	text_label.visible_characters = text_label.get_total_character_count()
 	_on_typing_finished()
 
 func advance_dialogue() -> void:
@@ -168,7 +169,7 @@ func advance_dialogue() -> void:
 	else:
 		stop_indicator_animation()
 		dialogue_control.visible = false
-		portrait.visible = false # Fecha o sprite da sombra ao encerrar a conversa
+		portrait.visible = false
 
 func start_indicator_animation() -> void:
 	if not next_indicator:
