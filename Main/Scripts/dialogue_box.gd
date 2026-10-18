@@ -102,8 +102,14 @@ func display_current_line() -> void:
 		advance_dialogue()
 		return
 
-	name_label.text = text_database[id]["name"]
+	var char_name = text_database[id]["name"]
+	name_label.text = char_name
 	var line_text = text_database[id]["text"]
+
+	# --- VERIFICAÇÃO DO PORTRAIT ---
+	# Se o nome do personagem for "Sombra", força o retrato dela automaticamente
+	if char_name == "Sombra":
+		portrait_path = "res://Assets/Portraits/Sombra.png"
 
 	# Atualiza o Portrait (Sprite centralizado de corpo inteiro por trás da caixa de texto)
 	if portrait_path != "" and ResourceLoader.exists(portrait_path):
@@ -142,7 +148,7 @@ func advance_dialogue() -> void:
 	else:
 		stop_indicator_animation()
 		dialogue_control.visible = false
-		portrait.visible = false # Fecha o sprite da sombra ao encerrar a conversa
+		portrait.visible = false # Fecha o sprite ao encerrar a conversa
 
 func start_indicator_animation() -> void:
 	if not next_indicator:

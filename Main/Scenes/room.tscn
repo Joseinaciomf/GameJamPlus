@@ -33,10 +33,10 @@ grow_vertical = 2
 
 [node name="ObjetoJanela" type="Button" parent="HotSpots" unique_id=155400604]
 layout_mode = 0
-offset_left = 313.0
-offset_top = 70.0
-offset_right = 502.0
-offset_bottom = 271.0
+offset_left = 320.0
+offset_top = 75.0
+offset_right = 509.0
+offset_bottom = 276.0
 flat = true
 
 [node name="ObjetoCama" type="Button" parent="HotSpots" unique_id=629675897]
@@ -49,10 +49,10 @@ flat = true
 
 [node name="ObjetoEspelho" type="Button" parent="HotSpots" unique_id=101010101]
 layout_mode = 0
-offset_left = 906.0
-offset_top = 89.0
-offset_right = 957.0
-offset_bottom = 440.0
+offset_left = 909.0
+offset_top = 88.0
+offset_right = 947.0
+offset_bottom = 439.0
 flat = true
 
 [node name="ObjetoEscrivaninha" type="Button" parent="HotSpots" unique_id=202020202]
@@ -65,35 +65,26 @@ flat = true
 
 [node name="ObjetoGuardaRoupa" type="Button" parent="HotSpots" unique_id=303030303]
 layout_mode = 0
-offset_left = 832.0
-offset_top = 31.0
-offset_right = 903.0
-offset_bottom = 420.0
+offset_left = 842.0
+offset_top = 30.0
+offset_right = 913.0
+offset_bottom = 419.0
 flat = true
 
 [node name="ObjetoPorta" type="Button" parent="HotSpots" unique_id=404040404]
 layout_mode = 0
 offset_left = 1007.0
-offset_top = 56.0
+offset_top = 72.0
 offset_right = 1078.0
-offset_bottom = 463.0
-flat = true
-
-[node name="ObjetoRelogio" type="Button" parent="HotSpots" unique_id=505050505]
-layout_mode = 0
-offset_left = 450.0
-offset_top = 50.0
-offset_right = 520.0
-offset_bottom = 120.0
+offset_bottom = 479.0
 flat = true
 
 [node name="ObjetoQuadro" type="Button" parent="HotSpots" unique_id=606060606]
 layout_mode = 0
-offset_left = 1085.0
-offset_top = 321.0
-offset_right = 1137.0
-offset_bottom = 381.0
+offset_left = 1090.0
+offset_top = 320.0
+offset_right = 1142.0
+offset_bottom = 380.0
 flat = true
 
 [node name="DialogueBox" parent="." unique_id=505788276 instance=ExtResource("1_xjo8h")]
-visible = false
