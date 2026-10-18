@@ -12,16 +12,26 @@ const COUNTER_TEXTURE: Texture2D = preload("res://Assets/Carta de Counter.png")
 # Arraste a imagem do "modelo de costas" aqui, no Inspector do nó CardGame.
 @export var enemy_back_texture: Texture2D
 
+# Sprites dos decks: arraste os nós DeckJogador e DeckInimigo para cá (Inspector do CardGame).
+@export var deck_jogador: Sprite2D
+@export var deck_inimigo: Sprite2D
+
 const HAND_SPREAD: float = 290.0
 const FAN_HEIGHT: float = 24.0
 const MAX_ROTATION: float = 0.20
+const CARD_SIZE: Vector2 = Vector2(128, 192)
+
+# Compra de cartas (voo do deck até a mão)
+const FAN_TIME: float = 0.22       # reorganização normal do leque
+const DEAL_TIME: float = 0.45      # duração do voo do deck até a mão
+const DEAL_STAGGER: float = 0.12   # intervalo entre uma carta e a próxima
 
 # Tempos do fluxo de jogada (segundos)
 const PLAYER_PREVIEW_TIME: float = 1.0  # tempo que a carta do jogador fica visível
 const ENEMY_PREVIEW_TIME: float = 1.3   # tempo que a carta do inimigo fica visível
 
 # Preview de carta (direita = hover do jogador, esquerda = carta jogada pelo inimigo)
-const PREVIEW_SCALE: float = 2.0
+const PREVIEW_SCALE: float = 1.75
 const PREVIEW_MARGIN: float = 60.0
 const PREVIEW_SLIDE: float = 60.0
 const PREVIEW_TIME: float = 0.3
@@ -35,6 +45,10 @@ var noite_da_partida: int = 1
 
 # Na primeira vez que o jogador joga um Counter, o inimigo é forçado a usar um Ataque.
 var _primeiro_counter_usado: bool = false
+
+# Textura normal dos decks (guardada no início; trocada por "Modelo de Costas" na última carta)
+var _deck_texture_jogador: Texture2D
+var _deck_texture_inimigo: Texture2D
 
 var _preview_layer: CanvasLayer
 var _preview_card: Control
@@ -60,17 +74,43 @@ func _ready() -> void:
 	_preview_layer.layer = 10
 	add_child(_preview_layer)
 
-	# Jogador
-	deck = _build_player_deck()
-	for data in _take_starting_hand(deck, 3, 1, 1):
-		_add_card_to_hand(data)
-	arrange_hand()
+	# As mãos ficam sempre desenhadas por cima dos decks.
+	Mao.z_index = 5
+	MaoInimigo.z_index = 5
 
-	# Inimigo
+	if deck_jogador != null:
+		_deck_texture_jogador = deck_jogador.texture
+	if deck_inimigo != null:
+		_deck_texture_inimigo = deck_inimigo.texture
+
+	deck = _build_player_deck()
 	enemy_deck = _build_enemy_deck()
-	for data in _take_starting_hand(enemy_deck, 3, 2, 0):  # inimigo não tem Counter
-		_add_enemy_card_to_hand(data)
+	_deal_initial_hands()
+
+
+# Distribui as mãos iniciais: as cartas saem dos decks, uma a uma, e montam o leque.
+func _deal_initial_hands() -> void:
+	GlobalCard.acao_em_andamento = true  # bloqueia cliques durante a distribuição
+
+	var player_hand: Array[CardData] = _take_starting_hand(deck, 3, 1, 1)
+	var enemy_hand: Array[CardData] = _take_starting_hand(enemy_deck, 3, 2, 0)  # inimigo não tem Counter
+	var total: int = maxi(player_hand.size(), enemy_hand.size())
+
+	for i in range(total):
+		var delay: float = i * DEAL_STAGGER
+		if i < player_hand.size():
+			var card: Control = _add_card_to_hand(player_hand[i])
+			_start_at_deck(card, Mao, deck_jogador, delay)
+		if i < enemy_hand.size():
+			var enemy_card: Control = _add_enemy_card_to_hand(enemy_hand[i])
+			_start_at_deck(enemy_card, MaoInimigo, deck_inimigo, delay + DEAL_STAGGER / 2.0)
+
+	arrange_hand()
 	arrange_enemy_hand()
+	_refresh_decks()
+
+	await get_tree().create_timer(total * DEAL_STAGGER + DEAL_TIME + 0.1).timeout
+	GlobalCard.acao_em_andamento = false
 
 
 # ---------------- DECKS ----------------
@@ -96,7 +136,7 @@ func _build_player_deck() -> Array[CardData]:
 # O inimigo NÃO tem cartas de Counter (exclusivas do jogador).
 # Ponto de entrada para o inimigo mudar conforme a noite (noite_da_partida).
 func _build_enemy_deck() -> Array[CardData]:
-	return _build_deck_from(14, 6, 0)
+	return _build_deck_from(10, 10, 0)
 
 
 func _make_card_data(card_name: String, card_description: String, card_type: String, texture: Texture2D) -> CardData:
@@ -178,9 +218,10 @@ func _run_round(player_card: Control) -> void:
 	# O counter do jogador só valia para esta resposta do inimigo.
 	GlobalCard.expirar_counter(GlobalCard.Lado.JOGADOR)
 
-	# 3) compras
+	# 3) compras (espera as cartas chegarem na mão antes de liberar o jogador)
 	draw_card(1)
 	draw_enemy_card(1)
+	await get_tree().create_timer(DEAL_TIME + 0.1).timeout
 
 	GlobalCard.proximo_turno()  # volta a vez do jogador
 	GlobalCard.acao_em_andamento = false
@@ -206,6 +247,7 @@ func _pick_enemy_card(forcar_ataque: bool) -> Control:
 		for index in range(enemy_deck.size()):
 			if enemy_deck[index].card_type == "Ataque":
 				_add_enemy_card_to_hand(enemy_deck.pop_at(index))
+				_refresh_decks()
 				return MaoInimigo.get_child(MaoInimigo.get_child_count() - 1) as Control
 
 	if candidates.is_empty():
@@ -248,23 +290,28 @@ func _discard_card(card: Control, offset_y: float, hand: Node2D) -> void:
 
 # ---------------- MÃO DO JOGADOR ----------------
 
-func _add_card_to_hand(data: CardData) -> void:
+func _add_card_to_hand(data: CardData) -> Control:
 	var card: Control = CARD_SCENE.instantiate()
 	card.card_data = data
 	Mao.add_child(card)
 	card.card_used.connect(_on_card_used)
 	card.preview_requested.connect(_show_preview)
 	card.preview_cancelled.connect(_on_preview_cancelled)
+	return card
 
 
 func draw_card(amount: int = 1, _card_data = null) -> void:
+	var drawn: int = 0
 	for i in range(amount):
 		var data: CardData = _pop_random(deck)
 		if data == null:
 			print("[DECK] Deck do jogador vazio.")
 			break
-		_add_card_to_hand(data)
+		var card: Control = _add_card_to_hand(data)
+		_start_at_deck(card, Mao, deck_jogador, i * DEAL_STAGGER)
+		drawn += 1
 	arrange_hand()
+	_refresh_decks_after(maxi(drawn - 1, 0) * DEAL_STAGGER)
 
 
 func arrange_hand() -> void:
@@ -273,22 +320,27 @@ func arrange_hand() -> void:
 
 # ---------------- MÃO DO INIMIGO ----------------
 
-func _add_enemy_card_to_hand(data: CardData) -> void:
+func _add_enemy_card_to_hand(data: CardData) -> Control:
 	var card: Control = CARD_SCENE.instantiate()
 	card.is_enemy = true
 	card.back_texture = enemy_back_texture
 	card.card_data = data  # guardado para as mecânicas futuras (o jogador não vê)
 	MaoInimigo.add_child(card)
+	return card
 
 
 func draw_enemy_card(amount: int = 1) -> void:
+	var drawn: int = 0
 	for i in range(amount):
 		var data: CardData = _pop_random(enemy_deck)
 		if data == null:
 			print("[DECK] Deck do inimigo vazio.")
 			break
-		_add_enemy_card_to_hand(data)
+		var card: Control = _add_enemy_card_to_hand(data)
+		_start_at_deck(card, MaoInimigo, deck_inimigo, i * DEAL_STAGGER)
+		drawn += 1
 	arrange_enemy_hand()
+	_refresh_decks_after(maxi(drawn - 1, 0) * DEAL_STAGGER)
 
 
 func arrange_enemy_hand() -> void:
@@ -317,11 +369,62 @@ func _arrange_fan(hand: Node2D, mirrored: bool) -> void:
 		var target_y: float = -sin(ratio * PI) * FAN_HEIGHT * side
 		var target_rotation: float = 0.0 if count == 1 else lerpf(-MAX_ROTATION, MAX_ROTATION, ratio) * side
 
+		# Cartas recém-compradas voam do deck (com atraso e um pouco mais devagar).
+		var dealt: bool = card.has_meta("deal_delay")
+		var delay: float = card.get_meta("deal_delay", 0.0)
+		var duration: float = DEAL_TIME if dealt else FAN_TIME
+
 		var tween: Tween = create_tween()
 		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-		tween.parallel().tween_property(card, "position", Vector2(target_x, target_y), 0.22)
-		tween.parallel().tween_property(card, "rotation", target_rotation, 0.22)
+		tween.parallel().tween_property(card, "position", Vector2(target_x, target_y), duration).set_delay(delay)
+		tween.parallel().tween_property(card, "rotation", target_rotation, duration).set_delay(delay)
+		if dealt:
+			tween.parallel().tween_property(card, "modulate:a", 1.0, 0.15).set_delay(delay)
+			card.remove_meta("deal_delay")
 		card.z_index = index
+
+
+# ---------------- SPRITES DOS DECKS ----------------
+
+# Coloca a carta recém-criada em cima do deck (virada como o deck) e a deixa invisível
+# até a hora dela sair (delay). O _arrange_fan faz o voo do deck até a mão.
+func _start_at_deck(card: Control, hand: Node2D, deck_sprite: Sprite2D, delay: float) -> void:
+	if deck_sprite == null:
+		return  # sem sprite de deck configurado: a carta só desliza para o leque
+
+	var rot: float = deck_sprite.global_rotation - hand.global_rotation
+	var center: Vector2 = hand.to_local(deck_sprite.global_position)
+	card.rotation = rot
+	card.position = center - (CARD_SIZE / 2.0).rotated(rot)  # centro da carta = centro do deck
+	card.modulate.a = 0.0
+	card.set_meta("deal_delay", delay)
+
+
+func _refresh_decks_after(delay: float) -> void:
+	if delay <= 0.0:
+		_refresh_decks()
+	else:
+		get_tree().create_timer(delay).timeout.connect(_refresh_decks)
+
+
+func _refresh_decks() -> void:
+	_update_deck_sprite(deck_jogador, _deck_texture_jogador, deck.size())
+	_update_deck_sprite(deck_inimigo, _deck_texture_inimigo, enemy_deck.size())
+
+
+# Mais de 1 carta: textura normal | 1 carta: "Modelo de Costas" | 0 cartas: some.
+func _update_deck_sprite(sprite: Sprite2D, normal_texture: Texture2D, remaining: int) -> void:
+	if sprite == null or not sprite.visible:
+		return
+
+	if remaining <= 0:
+		var fade: Tween = create_tween()
+		fade.tween_property(sprite, "modulate:a", 0.0, 0.25)
+		fade.tween_callback(sprite.hide)
+	elif remaining == 1 and enemy_back_texture != null:
+		sprite.texture = enemy_back_texture
+	elif normal_texture != null:
+		sprite.texture = normal_texture
 
 
 # ---------------- PREVIEW DE CARTAS ----------------
