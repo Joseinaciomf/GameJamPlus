@@ -13,6 +13,11 @@ enemy_back_texture = ExtResource("2_pw6p3")
 deck_jogador = NodePath("DeckJogador")
 deck_inimigo = NodePath("DeckInimigo")
 
+[node name="UICard" parent="." unique_id=250764743 instance=ExtResource("6_lvhjo")]
+offset_top = 0.0
+offset_right = 1152.0
+offset_bottom = 648.0
+
 [node name="Tabuleiro" type="TextureRect" parent="." unique_id=876396186]
 z_index = -1
 offset_right = 1152.0
@@ -43,5 +48,3 @@ autoplay = true
 
 [node name="CardSFX" type="AudioStreamPlayer" parent="." unique_id=2069645560]
 volume_db = -64.771
-
-[node name="UICard" parent="." unique_id=250764743 instance=ExtResource("6_lvhjo")]
