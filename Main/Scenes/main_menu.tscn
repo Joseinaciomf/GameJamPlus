@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
+[ext_resource type="Texture2D" uid="uid://bk7xvybtxq4wd" path="res://Assets/Environment/Menu.png" id="2_qeql0"]
 [ext_resource type="Texture2D" uid="uid://bllyj1und2ij1" path="res://Assets/UI/menucredit.png" id="3_0fmu8"]
 [ext_resource type="Texture2D" uid="uid://1ehl7qdxtd8d" path="res://Assets/UI/menustart.png" id="3_dskt3"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
@@ -22,20 +23,22 @@ offset_bottom = 650.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="Control" unique_id=939534602]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.15127608, 0.15127608, 0.15127608, 1)
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=204292127]
+z_index = -1
+layout_mode = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("2_qeql0")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1800417167]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -280.0
+offset_top = 2.0
+offset_right = -280.0
+offset_bottom = 2.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 90
