@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
 [ext_resource type="Texture2D" uid="uid://xf1a5mkke8fi" path="res://Assets/Environment/Menu-ceu.png" id="2_altbm"]
-[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="3_20n10"]
 [ext_resource type="Texture2D" uid="uid://dufyi36jnlexc" path="res://Assets/Environment/Menu-1.png" id="3_altbm"]
 [ext_resource type="Texture2D" uid="uid://bwp2i4ggogg0e" path="res://Assets/Environment/Menu-aqua.png" id="3_c2y7a"]
 [ext_resource type="Texture2D" uid="uid://dngw4jmddpjk6" path="res://Assets/Environment/Menu-2.png" id="4_c2y7a"]
@@ -11,7 +10,9 @@
 [ext_resource type="Texture2D" uid="uid://bg4c4w3v4mit3" path="res://Assets/Environment/Menu-3.png" id="5_i2qgb"]
 [ext_resource type="Texture2D" uid="uid://dna3vqvs2sswq" path="res://Assets/UI/menucreditnew.png" id="5_uujw2"]
 [ext_resource type="Texture2D" uid="uid://omse4xwf6wgd" path="res://Assets/UI/menustartnew.png" id="7_20n10"]
+[ext_resource type="Texture2D" uid="uid://cn2s35fikaq1d" path="res://Assets/Environment/Logo.png" id="7_altbm"]
 [ext_resource type="Texture2D" uid="uid://bsxnk1gnuujpu" path="res://Assets/UI/menuexitnew.png" id="8_7mijm"]
+[ext_resource type="AudioStream" uid="uid://de52k2nl41isd" path="res://Sons/Abertura.wav" id="13_c2y7a"]
 
 [node name="MainMenu" type="Control" unique_id=53005727]
 layout_mode = 3
@@ -49,33 +50,19 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -542.0
-offset_top = -295.0
-offset_bottom = 295.0
+offset_left = -577.0
+offset_top = -322.0
+offset_right = -8.0
+offset_bottom = 332.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 90
+theme_override_constants/separation = 20
+alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=843378238]
-custom_minimum_size = Vector2(0, 200)
-clip_contents = false
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=491421761]
 layout_mode = 2
-theme_override_colors/default_color = Color(0.99, 0.99, 0.99, 1)
-theme_override_colors/font_outline_color = Color(0.45, 0.15750001, 0.3281249, 1)
-theme_override_colors/font_shadow_color = Color(0.48364222, 0, 0.14181286, 1)
-theme_override_constants/line_separation = 0
-theme_override_constants/paragraph_separation = 0
-theme_override_constants/shadow_outline_size = 20
-theme_override_constants/shadow_offset_y = 8
-theme_override_constants/outline_size = 20
-theme_override_constants/text_highlight_h_padding = 10
-theme_override_fonts/normal_font = ExtResource("3_20n10")
-theme_override_font_sizes/normal_font_size = 100
-text = "Again, 
-before dawn"
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
+offset_transform_enabled = true
+texture = ExtResource("7_altbm")
 
 [node name="HBox" type="HBoxContainer" parent="VBoxContainer" unique_id=180102247]
 custom_minimum_size = Vector2(0, 300)
@@ -187,6 +174,10 @@ theme_override_font_sizes/normal_font_size = 50
 text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=82018884]
+stream = ExtResource("13_c2y7a")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/HBox/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBox/Start" to="." method="_on_start_pressed"]

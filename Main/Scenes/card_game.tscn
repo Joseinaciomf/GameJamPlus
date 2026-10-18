@@ -4,12 +4,19 @@
 [ext_resource type="Texture2D" uid="uid://bab24nheo3cbn" path="res://Assets/Modelo de Costas-Carta.png" id="2_pw6p3"]
 [ext_resource type="Texture2D" uid="uid://cvjb2yrbn6qqs" path="res://Assets/Deck.png" id="3_20usb"]
 [ext_resource type="Texture2D" uid="uid://cbjdvs4bafrsr" path="res://Assets/Environment/Tabuleiro.png" id="4_n03dq"]
+[ext_resource type="AudioStream" uid="uid://n724q5a873hs" path="res://Sons/CardGameP.wav" id="5_dqnje"]
+[ext_resource type="PackedScene" uid="uid://bp7lguymcp6ja" path="res://Main/Scenes/UICard.tscn" id="6_lvhjo"]
 
 [node name="CardGame" type="Node2D" unique_id=239556577 node_paths=PackedStringArray("deck_jogador", "deck_inimigo")]
 script = ExtResource("1_ag1rv")
 enemy_back_texture = ExtResource("2_pw6p3")
 deck_jogador = NodePath("DeckJogador")
 deck_inimigo = NodePath("DeckInimigo")
+
+[node name="UICard" parent="." unique_id=250764743 instance=ExtResource("6_lvhjo")]
+offset_top = 0.0
+offset_right = 1152.0
+offset_bottom = 648.0
 
 [node name="Tabuleiro" type="TextureRect" parent="." unique_id=876396186]
 z_index = -1
@@ -33,3 +40,11 @@ position = Vector2(140.00006, 135.00002)
 rotation = 3.1415927
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_20usb")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=114892720]
+stream = ExtResource("5_dqnje")
+volume_db = -20.07
+autoplay = true
+
+[node name="CardSFX" type="AudioStreamPlayer" parent="." unique_id=2069645560]
+volume_db = -64.771

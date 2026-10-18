@@ -9,6 +9,33 @@ const ATTACK_TEXTURE: Texture2D = preload("res://Assets/Carta de Ataque.png")
 const DEFENSE_TEXTURE: Texture2D = preload("res://Assets/Carta de Defesa.png")
 const COUNTER_TEXTURE: Texture2D = preload("res://Assets/Carta de Counter.png")
 
+# Cena para onde o jogo vai quando o inimigo chega a 0 de vida.
+const CENA_VITORIA: String = "res://Main/Scenes/transition_night2.tscn"
+
+# Sons de cada tipo de carta (jogador e inimigo).
+const SOM_ATAQUE: AudioStream = preload("res://Sons/CardAttack.wav")
+const SOM_DEFESA: AudioStream = preload("res://Sons/CardDefen.wav")
+const SOM_COUNTER: AudioStream = preload("res://Sons/CardEffectImpact.wav")
+
+# Reprodutor de efeitos criado automaticamente ao iniciar a cena.
+var card_sfx: AudioStreamPlayer
+
+func tocar_som_carta(tipo: String) -> void:
+	if card_sfx == null:
+		return
+	match tipo:
+		"Ataque":
+			card_sfx.stream = SOM_ATAQUE
+		"Defesa":
+			card_sfx.stream = SOM_DEFESA
+		"Counter":
+			card_sfx.stream = SOM_COUNTER
+		_:
+			return
+	#som estouradasso
+	#card_sfx.play()
+
+
 # Arraste a imagem do "modelo de costas" aqui, no Inspector do nó CardGame.
 @export var enemy_back_texture: Texture2D
 
@@ -53,9 +80,19 @@ var _deck_texture_inimigo: Texture2D
 var _preview_layer: CanvasLayer
 var _preview_card: Control
 
+# Fim da partida
+var _inimigo_derrotado: bool = false   # vida do inimigo chegou a 0
+var _partida_encerrada: bool = false   # já estamos saindo para a próxima cena
+
 
 func _ready() -> void:
 	randomize()
+
+	# O nó é criado por código: não precisa editar card_game.tscn.
+	card_sfx = AudioStreamPlayer.new()
+	card_sfx.name = "CardSFX"
+	card_sfx.volume_db = -5.0
+	add_child(card_sfx)
 
 	GlobalCard.vida_mudou.connect(_on_vida_mudou)
 	GlobalCard.turno_mudou.connect(_on_turno_mudou)
@@ -111,6 +148,9 @@ func _deal_initial_hands() -> void:
 
 	await get_tree().create_timer(total * DEAL_STAGGER + DEAL_TIME + 0.1).timeout
 	GlobalCard.acao_em_andamento = false
+
+	if _inimigo_derrotado:
+		_vencer_partida()
 
 
 # ---------------- DECKS ----------------
@@ -206,6 +246,9 @@ func _run_round(player_card: Control) -> void:
 
 	# 1) jogador
 	await _play_card(player_card, GlobalCard.Lado.JOGADOR)
+	if _inimigo_derrotado:  # o inimigo morreu com a carta do jogador
+		_vencer_partida()
+		return
 
 	# 2) inimigo
 	GlobalCard.proximo_turno()  # vez do inimigo
@@ -214,6 +257,10 @@ func _run_round(player_card: Control) -> void:
 		await _play_card(enemy_card, GlobalCard.Lado.INIMIGO)
 	else:
 		print("[INIMIGO] Sem cartas na mão para jogar.")
+
+	if _inimigo_derrotado:  # o inimigo morreu na própria jogada (ex.: counter do jogador)
+		_vencer_partida()
+		return
 
 	# O counter do jogador só valia para esta resposta do inimigo.
 	GlobalCard.expirar_counter(GlobalCard.Lado.JOGADOR)
@@ -268,6 +315,7 @@ func _play_card(card: Control, lado: int) -> void:
 	if data != null:
 		print("[%s] Jogou: %s" % ["JOGADOR" if is_player else "INIMIGO", data.card_name])
 		preview = _spawn_preview(data, not is_player)
+		tocar_som_carta(data.card_type)
 		data.aplicar_efeito(lado)  # efeito definido no card_data.gd
 
 	var hold: float = PLAYER_PREVIEW_TIME if is_player else ENEMY_PREVIEW_TIME
@@ -509,6 +557,32 @@ func _hide_preview(instant: bool = false) -> void:
 func _on_vida_mudou(lado: int, atual: int, maximo: int) -> void:
 	var quem: String = "Jogador" if lado == GlobalCard.Lado.JOGADOR else "Inimigo"
 	print("[VIDA] %s: %d / %d" % [quem, atual, maximo])
+
+	if _partida_encerrada:
+		return
+
+	# Inimigo sem vida: durante uma rodada o _run_round cuida da saída (depois que a
+	# carta jogada sumir). Fora de uma rodada, saímos na hora.
+	if lado == GlobalCard.Lado.INIMIGO and atual <= 0:
+		_inimigo_derrotado = true
+		if not GlobalCard.acao_em_andamento:
+			_vencer_partida()
+
+
+# ---------------- FIM DA PARTIDA ----------------
+
+func _vencer_partida() -> void:
+	if _partida_encerrada:
+		return
+	_partida_encerrada = true
+
+	_hide_preview(true)
+	print("[FIM] Inimigo derrotado! Indo para a próxima cena.")
+
+	# Zera vida, escudo, counter e turnos para a próxima partida de cartas.
+	GlobalCard.reiniciar_partida()
+
+	get_tree().change_scene_to_file(CENA_VITORIA)
 
 
 func _on_turno_mudou(numero_turno: int, lado_da_vez: int) -> void:
