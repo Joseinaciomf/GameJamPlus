@@ -55,10 +55,12 @@ offset_right = -8.0
 offset_bottom = 332.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 90
+theme_override_constants/separation = 20
+alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer" unique_id=491421761]
 layout_mode = 2
+offset_transform_enabled = true
 texture = ExtResource("7_altbm")
 
 [node name="HBox" type="HBoxContainer" parent="VBoxContainer" unique_id=180102247]
