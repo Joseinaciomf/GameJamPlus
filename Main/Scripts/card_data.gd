@@ -3,7 +3,7 @@ class_name CardData
 
 # Valores dos efeitos (mude aqui para balancear)
 const DANO_ATAQUE: int = 6      # Ataque: dano causado ao adversário
-const ESCUDO_DEFESA: int = 6    # Defesa: pontos de escudo criados
+const ESCUDO_DEFESA: int = 4    # Defesa: pontos de escudo criados
 const DANO_COUNTER: int = 10    # Counter: dano devolvido ao atacante
 
 @export var card_name: String = ""

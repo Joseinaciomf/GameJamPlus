@@ -2,49 +2,55 @@
 
 [ext_resource type="Script" uid="uid://cset00j17uu13" path="res://Main/Scripts/main_menu.gd" id="1_0fmu8"]
 [ext_resource type="Script" uid="uid://bfdjvwnpsael3" path="res://Main/Scripts/cardbuttonmenu.gd" id="1_mchxw"]
-[ext_resource type="Texture2D" uid="uid://bk7xvybtxq4wd" path="res://Assets/Environment/Menu.png" id="2_qeql0"]
+[ext_resource type="Texture2D" uid="uid://dvwmgmbrvu8gv" path="res://Assets/Environment/Menu-0.png" id="2_ut0wy"]
 [ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="3_20n10"]
+[ext_resource type="Texture2D" uid="uid://dufyi36jnlexc" path="res://Assets/Environment/Menu-1.png" id="3_altbm"]
+[ext_resource type="Texture2D" uid="uid://dngw4jmddpjk6" path="res://Assets/Environment/Menu-2.png" id="4_c2y7a"]
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="4_qeql0"]
+[ext_resource type="Texture2D" uid="uid://bg4c4w3v4mit3" path="res://Assets/Environment/Menu-3.png" id="5_i2qgb"]
 [ext_resource type="Texture2D" uid="uid://dna3vqvs2sswq" path="res://Assets/UI/menucreditnew.png" id="5_uujw2"]
 [ext_resource type="Texture2D" uid="uid://omse4xwf6wgd" path="res://Assets/UI/menustartnew.png" id="7_20n10"]
 [ext_resource type="Texture2D" uid="uid://bsxnk1gnuujpu" path="res://Assets/UI/menuexitnew.png" id="8_7mijm"]
 
-[node name="MainMenu" type="Node2D" unique_id=1428131579]
-script = ExtResource("1_0fmu8")
-
-[node name="Control" type="Control" parent="." unique_id=1163922146]
+[node name="MainMenu" type="Control" unique_id=53005727]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_right = 1154.0
-offset_bottom = 650.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_0fmu8")
+intensidade = Array[float]([0.0, 10.0, 20.0, 40.0])
 
-[node name="TextureRect" type="TextureRect" parent="Control" unique_id=204292127]
-z_index = -1
-layout_mode = 0
-offset_right = 1152.0
-offset_bottom = 648.0
-texture = ExtResource("2_qeql0")
+[node name="Camada0" type="Sprite2D" parent="." unique_id=555135665]
+texture = ExtResource("2_ut0wy")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control" unique_id=1800417167]
+[node name="Camada1" type="Sprite2D" parent="." unique_id=1028523327]
+texture = ExtResource("3_altbm")
+
+[node name="Camada2" type="Sprite2D" parent="." unique_id=566875959]
+texture = ExtResource("4_c2y7a")
+
+[node name="Camada3" type="Sprite2D" parent="." unique_id=1755774048]
+texture = ExtResource("5_i2qgb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1800417167]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -270.0
-offset_top = 12.0
-offset_right = -270.0
-offset_bottom = 12.0
-grow_horizontal = 2
+anchor_bottom = 0.5
+offset_left = -542.0
+offset_top = -295.0
+offset_bottom = 295.0
+grow_horizontal = 0
 grow_vertical = 2
 theme_override_constants/separation = 90
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Control/VBoxContainer" unique_id=843378238]
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=843378238]
 custom_minimum_size = Vector2(0, 200)
 clip_contents = false
 layout_mode = 2
@@ -65,19 +71,19 @@ scroll_active = false
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBox" type="HBoxContainer" parent="Control/VBoxContainer" unique_id=180102247]
+[node name="HBox" type="HBoxContainer" parent="VBoxContainer" unique_id=180102247]
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
 alignment = 1
 script = ExtResource("1_mchxw")
 
-[node name="Credits" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=222310334]
+[node name="Credits" type="TextureButton" parent="VBoxContainer/HBox" unique_id=222310334]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
 texture_normal = ExtResource("5_uujw2")
 stretch_mode = 4
 
-[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Credits" unique_id=1309344023]
+[node name="StartText" type="RichTextLabel" parent="VBoxContainer/HBox/Credits" unique_id=1309344023]
 custom_minimum_size = Vector2(0, 200)
 clip_contents = false
 layout_mode = 1
@@ -106,13 +112,13 @@ text = "CREDITS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Start" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=30622807]
+[node name="Start" type="TextureButton" parent="VBoxContainer/HBox" unique_id=30622807]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
 texture_normal = ExtResource("7_20n10")
 stretch_mode = 4
 
-[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Start" unique_id=1303022063]
+[node name="StartText" type="RichTextLabel" parent="VBoxContainer/HBox/Start" unique_id=1303022063]
 custom_minimum_size = Vector2(0, 200)
 clip_contents = false
 layout_mode = 1
@@ -141,13 +147,13 @@ text = "START"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Exit" type="TextureButton" parent="Control/VBoxContainer/HBox" unique_id=837269671]
+[node name="Exit" type="TextureButton" parent="VBoxContainer/HBox" unique_id=837269671]
 custom_minimum_size = Vector2(178, 0)
 layout_mode = 2
 texture_normal = ExtResource("8_7mijm")
 stretch_mode = 4
 
-[node name="StartText" type="RichTextLabel" parent="Control/VBoxContainer/HBox/Exit" unique_id=210824881]
+[node name="StartText" type="RichTextLabel" parent="VBoxContainer/HBox/Exit" unique_id=210824881]
 custom_minimum_size = Vector2(0, 200)
 clip_contents = false
 layout_mode = 1
@@ -176,6 +182,6 @@ text = "EXIT"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="Control/VBoxContainer/HBox/Credits" to="." method="_on_credits_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/HBox/Start" to="." method="_on_start_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/HBox/Exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox/Start" to="." method="_on_start_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBox/Exit" to="." method="_on_exit_pressed"]
