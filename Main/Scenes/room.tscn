@@ -34,66 +34,65 @@ grow_vertical = 2
 
 [node name="ObjetoJanela" type="Button" parent="HotSpots" unique_id=155400604]
 layout_mode = 0
-offset_left = 313.0
-offset_top = 70.0
-offset_right = 502.0
-offset_bottom = 271.0
+offset_left = 21.0
+offset_top = 117.0
+offset_right = 210.0
+offset_bottom = 318.0
 flat = true
 
 [node name="ObjetoCama" type="Button" parent="HotSpots" unique_id=629675897]
 layout_mode = 0
-offset_left = 99.0
-offset_top = 325.0
-offset_right = 467.0
-offset_bottom = 479.0
+offset_left = 381.0
+offset_top = 338.0
+offset_right = 749.0
+offset_bottom = 492.0
 flat = true
 
 [node name="ObjetoEspelho" type="Button" parent="HotSpots" unique_id=101010101]
 layout_mode = 0
-offset_left = 906.0
-offset_top = 89.0
-offset_right = 957.0
-offset_bottom = 440.0
+offset_left = 589.0
+offset_top = -5.0
+offset_right = 640.0
+offset_bottom = 346.0
 flat = true
 
 [node name="ObjetoEscrivaninha" type="Button" parent="HotSpots" unique_id=202020202]
 layout_mode = 0
-offset_left = 590.0
-offset_top = 277.0
-offset_right = 800.0
-offset_bottom = 417.0
+offset_left = 47.0
+offset_top = 374.0
+offset_right = 257.0
+offset_bottom = 514.0
 flat = true
 
 [node name="ObjetoGuardaRoupa" type="Button" parent="HotSpots" unique_id=303030303]
 layout_mode = 0
-offset_left = 832.0
-offset_top = 31.0
-offset_right = 903.0
-offset_bottom = 420.0
+offset_left = 1001.0
+offset_top = 166.0
+offset_right = 1072.0
+offset_bottom = 555.0
 flat = true
 
 [node name="ObjetoPorta" type="Button" parent="HotSpots" unique_id=404040404]
 layout_mode = 0
-offset_left = 1007.0
-offset_top = 56.0
-offset_right = 1078.0
-offset_bottom = 463.0
+offset_left = 750.0
+offset_right = 821.0
+offset_bottom = 407.0
 flat = true
 
 [node name="ObjetoRelogio" type="Button" parent="HotSpots" unique_id=505050505]
 layout_mode = 0
-offset_left = 450.0
-offset_top = 50.0
-offset_right = 520.0
-offset_bottom = 120.0
+offset_left = 667.0
+offset_top = 166.0
+offset_right = 737.0
+offset_bottom = 236.0
 flat = true
 
 [node name="ObjetoQuadro" type="Button" parent="HotSpots" unique_id=606060606]
 layout_mode = 0
-offset_left = 1085.0
-offset_top = 321.0
-offset_right = 1137.0
-offset_bottom = 381.0
+offset_left = 420.0
+offset_top = 205.0
+offset_right = 472.0
+offset_bottom = 265.0
 flat = true
 
 [node name="DialogueBox" parent="." unique_id=505788276 instance=ExtResource("1_xjo8h")]
