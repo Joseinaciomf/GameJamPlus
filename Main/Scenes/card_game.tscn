@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://ctfvgxg7i2rpw" path="res://Main/Scripts/card_game.gd" id="1_ag1rv"]
 [ext_resource type="Texture2D" uid="uid://bab24nheo3cbn" path="res://Assets/Modelo de Costas-Carta.png" id="2_pw6p3"]
 [ext_resource type="Texture2D" uid="uid://cvjb2yrbn6qqs" path="res://Assets/Deck.png" id="3_20usb"]
+[ext_resource type="Texture2D" uid="uid://cbjdvs4bafrsr" path="res://Assets/Environment/Tabuleiro.png" id="4_n03dq"]
 
 [node name="CardGame" type="Node2D" unique_id=239556577 node_paths=PackedStringArray("deck_jogador", "deck_inimigo")]
 script = ExtResource("1_ag1rv")
@@ -26,3 +27,10 @@ position = Vector2(140.00006, 135.00002)
 rotation = 3.1415927
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_20usb")
+
+[node name="Tabuleiro" type="TextureRect" parent="." unique_id=876396186]
+visible = false
+z_index = -1
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4_n03dq")
