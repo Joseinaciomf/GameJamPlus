@@ -11,6 +11,12 @@ enemy_back_texture = ExtResource("2_pw6p3")
 deck_jogador = NodePath("DeckJogador")
 deck_inimigo = NodePath("DeckInimigo")
 
+[node name="Tabuleiro" type="TextureRect" parent="." unique_id=876396186]
+z_index = -1
+offset_right = 1152.0
+offset_bottom = 648.0
+texture = ExtResource("4_n03dq")
+
 [node name="Mao" type="Node2D" parent="." unique_id=1743350984]
 position = Vector2(376, 484)
 
@@ -27,10 +33,3 @@ position = Vector2(140.00006, 135.00002)
 rotation = 3.1415927
 scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_20usb")
-
-[node name="Tabuleiro" type="TextureRect" parent="." unique_id=876396186]
-visible = false
-z_index = -1
-offset_right = 1152.0
-offset_bottom = 648.0
-texture = ExtResource("4_n03dq")
