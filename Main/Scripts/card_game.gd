@@ -17,14 +17,15 @@ const FAN_HEIGHT: float = 24.0
 const MAX_ROTATION: float = 0.20
 
 # Tempos do fluxo de jogada (segundos)
-const ENEMY_PLAY_DELAY: float = 1.3   # jogador joga -> inimigo joga
-const DRAW_DELAY: float = 1.3         # inimigo joga -> ambos compram
+const PLAYER_PREVIEW_TIME: float = 1.0  # tempo que a carta do jogador fica visível
+const ENEMY_PREVIEW_TIME: float = 1.3   # tempo que a carta do inimigo fica visível
 
-# Preview da carta (lado direito da tela)
+# Preview de carta (direita = hover do jogador, esquerda = carta jogada pelo inimigo)
 const PREVIEW_SCALE: float = 2.0
-const PREVIEW_MARGIN_RIGHT: float = 60.0
+const PREVIEW_MARGIN: float = 60.0
 const PREVIEW_SLIDE: float = 60.0
 const PREVIEW_TIME: float = 0.3
+const PREVIEW_FADE_OUT: float = 0.2
 
 var deck: Array[CardData] = []
 var enemy_deck: Array[CardData] = []
@@ -32,9 +33,11 @@ var enemy_deck: Array[CardData] = []
 # Noite em que esta partida de cartas está acontecendo (lida do Global.gd).
 var noite_da_partida: int = 1
 
+# Na primeira vez que o jogador joga um Counter, o inimigo é forçado a usar um Ataque.
+var _primeiro_counter_usado: bool = false
+
 var _preview_layer: CanvasLayer
 var _preview_card: Control
-var _preview_tween: Tween
 
 
 func _ready() -> void:
@@ -42,6 +45,8 @@ func _ready() -> void:
 
 	GlobalCard.vida_mudou.connect(_on_vida_mudou)
 	GlobalCard.turno_mudou.connect(_on_turno_mudou)
+	GlobalCard.escudo_mudou.connect(_on_escudo_mudou)
+	GlobalCard.counter_mudou.connect(_on_counter_mudou)
 	_on_vida_mudou(GlobalCard.Lado.JOGADOR, GlobalCard.vida_jogador, GlobalCard.VIDA_MAXIMA)
 	_on_vida_mudou(GlobalCard.Lado.INIMIGO, GlobalCard.vida_inimigo, GlobalCard.VIDA_MAXIMA)
 	_on_turno_mudou(GlobalCard.numero_turno, GlobalCard.turno_atual)
@@ -56,38 +61,42 @@ func _ready() -> void:
 	add_child(_preview_layer)
 
 	# Jogador
-	deck = _build_deck()
-	for data in _take_starting_hand(deck):
+	deck = _build_player_deck()
+	for data in _take_starting_hand(deck, 3, 1, 1):
 		_add_card_to_hand(data)
 	arrange_hand()
 
 	# Inimigo
 	enemy_deck = _build_enemy_deck()
-	for data in _take_starting_hand(enemy_deck):
+	for data in _take_starting_hand(enemy_deck, 3, 2, 0):  # inimigo não tem Counter
 		_add_enemy_card_to_hand(data)
 	arrange_enemy_hand()
 
 
 # ---------------- DECKS ----------------
 
-func _build_deck() -> Array[CardData]:
+func _build_deck_from(ataques: int, defesas: int, counters: int) -> Array[CardData]:
 	var new_deck: Array[CardData] = []
 
-	for i in range(10):
+	for i in range(ataques):
 		new_deck.append(_make_card_data("Carta de Ataque", "Uma carta do tipo ataque.", "Ataque", ATTACK_TEXTURE))
-	for i in range(7):
+	for i in range(defesas):
 		new_deck.append(_make_card_data("Carta de Defesa", "Uma carta do tipo defesa.", "Defesa", DEFENSE_TEXTURE))
-	for i in range(3):
+	for i in range(counters):
 		new_deck.append(_make_card_data("Carta de Counter", "Uma carta do tipo counter.", "Counter", COUNTER_TEXTURE))
 
 	new_deck.shuffle()
 	return new_deck
 
 
+func _build_player_deck() -> Array[CardData]:
+	return _build_deck_from(10, 7, 3)
+
+
+# O inimigo NÃO tem cartas de Counter (exclusivas do jogador).
 # Ponto de entrada para o inimigo mudar conforme a noite (noite_da_partida).
-# Por enquanto é igual ao deck do jogador.
 func _build_enemy_deck() -> Array[CardData]:
-	return _build_deck()
+	return _build_deck_from(14, 6, 0)
 
 
 func _make_card_data(card_name: String, card_description: String, card_type: String, texture: Texture2D) -> CardData:
@@ -99,11 +108,11 @@ func _make_card_data(card_name: String, card_description: String, card_type: Str
 	return data
 
 
-func _take_starting_hand(source_deck: Array[CardData]) -> Array[CardData]:
+func _take_starting_hand(source_deck: Array[CardData], ataques: int, defesas: int, counters: int) -> Array[CardData]:
 	var starting_hand: Array[CardData] = []
-	_take_cards_of_type(source_deck, "Ataque", 3, starting_hand)
-	_take_cards_of_type(source_deck, "Defesa", 1, starting_hand)
-	_take_cards_of_type(source_deck, "Counter", 1, starting_hand)
+	_take_cards_of_type(source_deck, "Ataque", ataques, starting_hand)
+	_take_cards_of_type(source_deck, "Defesa", defesas, starting_hand)
+	_take_cards_of_type(source_deck, "Counter", counters, starting_hand)
 	starting_hand.shuffle()
 	return starting_hand
 
@@ -124,52 +133,105 @@ func _pop_random(source_deck: Array[CardData]) -> CardData:
 
 
 # ---------------- FLUXO DE JOGADA ----------------
-# 1) jogador usa uma carta
-# 2) +1.3s: inimigo usa uma carta aleatória da mão dele
-# 3) +1.3s: ambos compram uma carta aleatória do próprio deck
-# Durante isso a vez fica com o inimigo, então o jogador não consegue jogar.
+# 1) jogador usa uma carta: ela aparece à direita (breve) e o efeito é aplicado
+# 2) assim que ela some, é a vez do inimigo: uma carta da mão dele aparece à
+#    esquerda e o efeito é aplicado
+# 3) assim que ela some, ambos compram uma carta aleatória do próprio deck
+# Enquanto isso o jogador não consegue jogar (GlobalCard.acao_em_andamento).
+#
+# Counter: só vale durante a resposta do inimigo NESTA rodada. Se o inimigo não
+# usar um Ataque, o counter expira sem fazer nada (carta de "sorte").
+# Exceção: na primeira vez que o jogador joga um Counter, o inimigo é forçado
+# a usar um Ataque.
 
 func _on_card_used(card: Control) -> void:
 	if not is_instance_valid(card):
 		return
 
+	GlobalCard.acao_em_andamento = true
 	_hide_preview(true)
 	card.set_process_input(false)
 	card.mouse_filter = Control.MOUSE_FILTER_IGNORE
 
-	# TODO (depois): aplicar o efeito da carta do jogador aqui.
-	_discard_card(card, -90.0, Mao)  # roda em paralelo, sem esperar
-	_run_round()
+	_run_round(card)
 
 
-func _run_round() -> void:
-	GlobalCard.proximo_turno()  # vez do inimigo (bloqueia o jogador)
+func _run_round(player_card: Control) -> void:
+	# Antes de jogar: foi um Counter pela primeira vez?
+	var player_data: CardData = player_card.card_data
+	var forcar_ataque: bool = false
+	if player_data != null and player_data.card_type == "Counter" and not _primeiro_counter_usado:
+		_primeiro_counter_usado = true
+		forcar_ataque = true
 
-	await get_tree().create_timer(ENEMY_PLAY_DELAY).timeout
-	_enemy_play_random_card()
+	# 1) jogador
+	await _play_card(player_card, GlobalCard.Lado.JOGADOR)
 
-	await get_tree().create_timer(DRAW_DELAY).timeout
+	# 2) inimigo
+	GlobalCard.proximo_turno()  # vez do inimigo
+	var enemy_card: Control = _pick_enemy_card(forcar_ataque)
+	if enemy_card != null:
+		await _play_card(enemy_card, GlobalCard.Lado.INIMIGO)
+	else:
+		print("[INIMIGO] Sem cartas na mão para jogar.")
+
+	# O counter do jogador só valia para esta resposta do inimigo.
+	GlobalCard.expirar_counter(GlobalCard.Lado.JOGADOR)
+
+	# 3) compras
 	draw_card(1)
 	draw_enemy_card(1)
 
 	GlobalCard.proximo_turno()  # volta a vez do jogador
+	GlobalCard.acao_em_andamento = false
 
 
-func _enemy_play_random_card() -> void:
-	var candidates: Array[Node] = []
+# Escolhe a carta que o inimigo vai jogar (aleatória, ou obrigatoriamente Ataque).
+func _pick_enemy_card(forcar_ataque: bool) -> Control:
+	var candidates: Array[Control] = []
 	for child in MaoInimigo.get_children():
 		if not child.is_queued_for_deletion():
-			candidates.append(child)
+			candidates.append(child as Control)
+
+	if forcar_ataque:
+		var ataques: Array[Control] = []
+		for c in candidates:
+			if c.card_data != null and c.card_data.card_type == "Ataque":
+				ataques.append(c)
+
+		if not ataques.is_empty():
+			return ataques.pick_random()
+
+		# Sem Ataque na mão? Pega um do deck do inimigo e coloca na mão.
+		for index in range(enemy_deck.size()):
+			if enemy_deck[index].card_type == "Ataque":
+				_add_enemy_card_to_hand(enemy_deck.pop_at(index))
+				return MaoInimigo.get_child(MaoInimigo.get_child_count() - 1) as Control
 
 	if candidates.is_empty():
-		print("[INIMIGO] Sem cartas na mão para jogar.")
-		return
+		return null
+	return candidates.pick_random()
 
-	var card: Control = candidates.pick_random() as Control
-	# TODO (depois): aplicar o efeito da carta do inimigo (card.card_data) aqui.
-	if card.card_data != null:
-		print("[INIMIGO] Jogou: %s" % card.card_data.card_name)
-	_discard_card(card, 90.0, MaoInimigo)
+
+# Joga uma carta: sai da mão, aparece ampliada (jogador = direita, inimigo = esquerda),
+# aplica o efeito, fica visível um tempo e some. Só retorna quando a carta sumiu.
+func _play_card(card: Control, lado: int) -> void:
+	var is_player: bool = lado == GlobalCard.Lado.JOGADOR
+	var data: CardData = card.card_data
+	var hand: Node2D = Mao if is_player else MaoInimigo
+
+	_discard_card(card, -90.0 if is_player else 90.0, hand)  # roda em paralelo
+
+	var preview: Control = null
+	if data != null:
+		print("[%s] Jogou: %s" % ["JOGADOR" if is_player else "INIMIGO", data.card_name])
+		preview = _spawn_preview(data, not is_player)
+		data.aplicar_efeito(lado)  # efeito definido no card_data.gd
+
+	var hold: float = PLAYER_PREVIEW_TIME if is_player else ENEMY_PREVIEW_TIME
+	await get_tree().create_timer(PREVIEW_TIME + hold).timeout
+	if preview != null:
+		await _fade_out_preview(preview).finished
 
 
 # Anima a carta saindo da mão, remove e reorganiza o leque.
@@ -262,34 +324,65 @@ func _arrange_fan(hand: Node2D, mirrored: bool) -> void:
 		card.z_index = index
 
 
-# ---------------- PREVIEW DA CARTA (lado direito) ----------------
+# ---------------- PREVIEW DE CARTAS ----------------
+# left_side = false -> direita da tela (hover do jogador)
+# left_side = true  -> esquerda da tela (carta jogada pelo inimigo)
 
-func _show_preview(source: Control) -> void:
-	if not is_instance_valid(source) or source.card_data == null:
-		return
-
-	_hide_preview(true)  # remove qualquer preview anterior na hora
-
+func _spawn_preview(data: CardData, left_side: bool) -> Control:
 	var preview: Control = CARD_SCENE.instantiate()
 	preview.is_preview = true
-	preview.card_data = source.card_data
+	preview.card_data = data
 	preview.scale = Vector2.ONE * PREVIEW_SCALE
 	preview.modulate.a = 0.0
 	_preview_layer.add_child(preview)
 
 	var viewport_size: Vector2 = get_viewport_rect().size
-	var target: Vector2 = Vector2(
-		viewport_size.x - 128.0 * PREVIEW_SCALE - PREVIEW_MARGIN_RIGHT,
-		viewport_size.y / 2.0 - 96.0 * PREVIEW_SCALE
-	)
-	preview.position = target + Vector2(PREVIEW_SLIDE, 0.0)  # começa mais à direita
+	var target_y: float = viewport_size.y / 2.0 - 96.0 * PREVIEW_SCALE
+	var target_x: float
+	var slide: float
+	if left_side:
+		target_x = PREVIEW_MARGIN
+		slide = -PREVIEW_SLIDE      # entra vindo da esquerda
+	else:
+		target_x = viewport_size.x - 128.0 * PREVIEW_SCALE - PREVIEW_MARGIN
+		slide = PREVIEW_SLIDE       # entra vindo da direita
 
-	_preview_card = preview
-	_preview_tween = create_tween()
-	_preview_tween.set_parallel(true)
-	_preview_tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_preview_tween.tween_property(preview, "position", target, PREVIEW_TIME)
-	_preview_tween.tween_property(preview, "modulate:a", 1.0, PREVIEW_TIME)
+	var target: Vector2 = Vector2(target_x, target_y)
+	preview.position = target + Vector2(slide, 0.0)
+
+	var tween: Tween = create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(preview, "position", target, PREVIEW_TIME)
+	tween.tween_property(preview, "modulate:a", 1.0, PREVIEW_TIME)
+	preview.set_meta("tween", tween)
+	return preview
+
+
+# Faz o fade out e remove o preview. Retorna o Tween (dá para dar await em .finished).
+func _fade_out_preview(preview: Control) -> Tween:
+	var old_tween: Variant = preview.get_meta("tween", null)
+	if old_tween != null and old_tween.is_valid():
+		old_tween.kill()
+
+	var fade: Tween = create_tween()
+	fade.tween_property(preview, "modulate:a", 0.0, PREVIEW_FADE_OUT)
+	fade.tween_callback(preview.queue_free)
+	return fade
+
+
+# --- preview do hover do jogador (direita) ---
+
+func _show_preview(source: Control) -> void:
+	if not is_instance_valid(source) or source.card_data == null:
+		return
+
+	# Sem preview de hover durante a rodada (a carta jogada ocupa o lado direito).
+	if GlobalCard.turno_atual != GlobalCard.Lado.JOGADOR or GlobalCard.acao_em_andamento:
+		return
+
+	_hide_preview(true)  # remove qualquer preview anterior na hora
+	_preview_card = _spawn_preview(source.card_data, false)
 
 
 func _on_preview_cancelled(_source: Control) -> void:
@@ -297,9 +390,6 @@ func _on_preview_cancelled(_source: Control) -> void:
 
 
 func _hide_preview(instant: bool = false) -> void:
-	if _preview_tween != null and _preview_tween.is_valid():
-		_preview_tween.kill()
-
 	var old: Control = _preview_card
 	_preview_card = null
 	if not is_instance_valid(old):
@@ -307,11 +397,8 @@ func _hide_preview(instant: bool = false) -> void:
 
 	if instant:
 		old.queue_free()
-		return
-
-	var fade: Tween = create_tween()
-	fade.tween_property(old, "modulate:a", 0.0, 0.12)
-	fade.tween_callback(old.queue_free)
+	else:
+		_fade_out_preview(old)
 
 
 # ---------------- DEBUG (vida / turno no Output) ----------------
@@ -324,6 +411,19 @@ func _on_vida_mudou(lado: int, atual: int, maximo: int) -> void:
 func _on_turno_mudou(numero_turno: int, lado_da_vez: int) -> void:
 	var quem: String = "Jogador" if lado_da_vez == GlobalCard.Lado.JOGADOR else "Inimigo"
 	print("[TURNO] Turno %d - vez do %s" % [numero_turno, quem])
+
+
+func _on_escudo_mudou(lado: int, valor: int) -> void:
+	var quem: String = "Jogador" if lado == GlobalCard.Lado.JOGADOR else "Inimigo"
+	print("[ESCUDO] %s: %d" % [quem, valor])
+
+
+func _on_counter_mudou(lado: int, dano_refletido: int) -> void:
+	var quem: String = "Jogador" if lado == GlobalCard.Lado.JOGADOR else "Inimigo"
+	if dano_refletido > 0:
+		print("[COUNTER] %s armou um counter (devolve %d de dano)" % [quem, dano_refletido])
+	else:
+		print("[COUNTER] %s sem counter ativo" % quem)
 
 
 # ---------------- TESTE TEMPORÁRIO (apague depois) ----------------

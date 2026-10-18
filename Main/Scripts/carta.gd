@@ -76,8 +76,8 @@ func _on_gui_input(event: InputEvent) -> void:
 	if is_enemy or is_preview or is_used:
 		return
 
-	# Só dá para jogar uma carta na vez do jogador.
-	if GlobalCard.turno_atual != GlobalCard.Lado.JOGADOR:
+	# Só dá para jogar uma carta na vez do jogador, e não no meio de uma rodada.
+	if GlobalCard.turno_atual != GlobalCard.Lado.JOGADOR or GlobalCard.acao_em_andamento:
 		return
 
 	if event is InputEventMouseButton:
