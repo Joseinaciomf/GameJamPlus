@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dptdrjjyr4rkf"]
+[gd_scene format=3 uid="uid://dninsfv5boedt"]
 
 [ext_resource type="Script" uid="uid://cshimpr2mtjfa" path="res://Main/Scripts/dialogue_box.gd" id="1_lihx8"]
 [ext_resource type="Texture2D" uid="uid://cjxr2af0saq85" path="res://Assets/UI/backgrounddialogue.png" id="2_alol7"]
@@ -7,11 +7,11 @@
 [ext_resource type="FontFile" uid="uid://tsix7gmscf11" path="res://Assets/Fonts/Tiny5-Regular.ttf" id="3_jgmw8"]
 [ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="6_jgmw8"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jgmw8"]
-texture = ExtResource("2_m4aga")
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0fmu8"]
 texture = ExtResource("2_alol7")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jgmw8"]
+texture = ExtResource("2_m4aga")
 
 [node name="DialogueBox" type="CanvasLayer" unique_id=505788276]
 script = ExtResource("1_lihx8")
@@ -90,9 +90,9 @@ vertical_alignment = 1
 z_index = 2
 layout_mode = 0
 offset_left = 20.0
-offset_top = -45.0
+offset_top = -55.0
 offset_right = 246.0
-offset_bottom = 35.0
+offset_bottom = 25.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_jgmw8")
 
 [node name="MarginContainer" type="MarginContainer" parent="DialogueControl/NameBox" unique_id=1379563255]
