@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c734cl6cvvqvo"]
 
 [ext_resource type="Script" uid="uid://c8vnhdp5s78ef" path="res://Main/Scripts/intro_story.gd" id="1_trans"]
+[ext_resource type="FontFile" uid="uid://cljanmqcoge7q" path="res://Assets/Fonts/Jersey10-Regular.ttf" id="2_2pmwq"]
 
 [node name="TransitionNight2" type="Control" unique_id=1895352565]
 layout_mode = 3
@@ -11,7 +12,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_trans")
 text_speed = 0.07
-dialogue_prefix = "TRANS_N2"
+dialogue_prefix = "TRANS_01"
 next_scene_path = "res://Main/Scenes/credits.tscn"
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=2122921489]
@@ -43,6 +44,12 @@ size_flags_vertical = 3
 [node name="TextLabel" type="RichTextLabel" parent="MarginContainer/CenterContainer" unique_id=68698942]
 custom_minimum_size = Vector2(800, 200)
 layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.21684882, 0.21396053, 0.38816646, 1)
+theme_override_colors/font_shadow_color = Color(0.18417618, 0.1961416, 0.29654467, 1)
+theme_override_constants/line_separation = 0
+theme_override_fonts/normal_font = ExtResource("2_2pmwq")
+theme_override_font_sizes/normal_font_size = 40
 bbcode_enabled = true
 text = "[center]Carregando final...[/center]"
 fit_content = true

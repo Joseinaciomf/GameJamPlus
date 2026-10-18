@@ -72,11 +72,11 @@ theme_override_constants/text_highlight_h_padding = 10
 theme_override_fonts/normal_font = ExtResource("3_fulod")
 theme_override_font_sizes/normal_font_size = 22
 bbcode_enabled = true
-text = "  Explore o quarto clicando nos objetos ao redor. 
+text = "Explore o quarto clicando nos objetos ao redor.
 
-  • Alguns itens revelam memórias e reflexões da protagonista.
-  • Outros escondem [color=yellow]anomalias sutis e perturbadoras[/color].
-  • Encontre todas as anomalias para desvendar o mistério e avançar."
+• Alguns itens revelam memórias, dúvidas e reflexões da protagonista.
+• Examine o ambiente para entender o que está acontecendo e recuperar fragmentos do passado.
+• Quando estiver pronta, [color=yellow]clique na porta[/color] para enfrentar a Sombra e avançar no combate."
 fit_content = true
 
 [node name="BtnEntendi" type="Button" parent="CenterContainer/PanelContainer/MarginContainer/VBoxContainer" unique_id=606060606]

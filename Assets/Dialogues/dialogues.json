@@ -66,5 +66,9 @@
   {
 	"id": "Sombra_05",
 	"portrait": "res://Assets/Portraits/Sombra.png"
+  },
+  {
+	"id": "TRANS_01",
+	"portrait": ""
   }
 ]
